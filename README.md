@@ -124,3 +124,6 @@ To initiate the build process, use the terminal command: `parcel src/index.html`
     </tr>
   </tbody>
 </table>
+
+## Project Dependencies
+React
