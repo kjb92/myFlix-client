@@ -1,7 +1,7 @@
 export const MovieCard = ({movie, onMovieClick}) => {
   return (
     <div onClick={() => {
-      onMovieClick();
+      onMovieClick(movie);
     }}>
       {movie.Title}
     </div>
