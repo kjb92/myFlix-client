@@ -58,7 +58,7 @@ export const MainView = () => {
         Birth: "xxx",
         Death: "xxx"
       },       
-      ImagePath: "https://m.media-amazon.com/images/I/91L6M95tlKL._SL1500_.jpg",
+      ImagePath: "https://m.media-amazon.com/images/I/91ozbAOGRDL._SY445_.jpg",
       Featured: false
     }
   ]);
