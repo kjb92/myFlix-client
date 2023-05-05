@@ -1,4 +1,6 @@
 export const MovieView = ({movie, onBackClick}) => {
+  const genres = movie.Genre.map(genre => genre.Name).join(', ');
+
   return (
     <div>
       <div>
@@ -18,11 +20,11 @@ export const MovieView = ({movie, onBackClick}) => {
       </div>
       <div>
         <span>Genre: </span>
-        <span>{movie.Genre.Name}</span>
+        <span>{genres}</span>
       </div>
       <div>
         <span>Featured: </span>
-        <span>{movie.Featured}</span>
+        <span>{movie.Featured ? "yes" : "no"}</span>      
       </div>
       <div>
         <button onClick={onBackClick}>Back</button>
