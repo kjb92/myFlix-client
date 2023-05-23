@@ -27293,60 +27293,60 @@ const MainView = ()=>{
     const [movies, setMovies] = (0, _react.useState)([
         {
             _id: "64462ea9a5f5577c2975ae70",
-            Title: "The Lord of the Rings: The Two Towers",
-            Description: "Frodo and Sam continue their journey to Mordor to destroy the One Ring, while Aragorn, Legolas, and Gimli prepare for a final battle against Saruman and his army of orcs at the fortress of Helm's Deep.",
-            Genre: [
+            title: "The Lord of the Rings: The Two Towers",
+            description: "Frodo and Sam continue their journey to Mordor to destroy the One Ring, while Aragorn, Legolas, and Gimli prepare for a final battle against Saruman and his army of orcs at the fortress of Helm's Deep.",
+            genre: [
                 {
-                    Name: "Action",
-                    Description: ""
+                    name: "Action",
+                    description: ""
                 }
             ],
-            Director: {
-                Name: "Peter Jackson",
-                Bio: "xxx",
-                Birth: "xxx",
-                Death: "xxx"
+            director: {
+                name: "Peter Jackson",
+                bio: "xxx",
+                birth: "xxx",
+                death: "xxx"
             },
-            ImagePath: "https://m.media-amazon.com/images/I/513N2WS7ENL._SY445_.jpg",
-            Featured: false
+            imagePath: "https://m.media-amazon.com/images/I/513N2WS7ENL._SY445_.jpg",
+            featured: false
         },
         {
             _id: "64462ea9a5f5577c2975ae74",
-            Title: "Kill Bill: Vol. 1",
-            Description: "After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.",
-            Genre: [
+            title: "Kill Bill: Vol. 1",
+            description: "After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her.",
+            genre: [
                 {
-                    Name: "Action",
-                    Description: ""
+                    name: "Action",
+                    description: ""
                 }
             ],
-            Director: {
-                Name: "Quentin Tarantino",
-                Bio: "xxx",
-                Birth: "xxx",
-                Death: "xxx"
+            director: {
+                name: "Quentin Tarantino",
+                bio: "xxx",
+                birth: "xxx",
+                death: "xxx"
             },
-            ImagePath: "https://m.media-amazon.com/images/I/514W87SBYHL._SY445_.jpg",
-            Featured: false
+            imagePath: "https://m.media-amazon.com/images/I/514W87SBYHL._SY445_.jpg",
+            featured: false
         },
         {
             _id: "64462f40a5f5577c2975ae79",
-            Title: "The Hateful Eight",
-            Description: "In the dead of a Wyoming winter, a bounty hunter and his prisoner find shelter in a cabin currently inhabited by a collection of nefarious characters.",
-            Genre: [
+            title: "The Hateful Eight",
+            description: "In the dead of a Wyoming winter, a bounty hunter and his prisoner find shelter in a cabin currently inhabited by a collection of nefarious characters.",
+            genre: [
                 {
-                    Name: "Action",
-                    Description: ""
+                    name: "Action",
+                    description: ""
                 }
             ],
-            Director: {
-                Name: "Quentin Tarantino",
-                Bio: "xxx",
-                Birth: "xxx",
-                Death: "xxx"
+            director: {
+                name: "Quentin Tarantino",
+                bio: "xxx",
+                birth: "xxx",
+                death: "xxx"
             },
-            ImagePath: "https://m.media-amazon.com/images/I/91ozbAOGRDL._SY445_.jpg",
-            Featured: false
+            imagePath: "https://m.media-amazon.com/images/I/91ozbAOGRDL._SY445_.jpg",
+            featured: false
         }
     ]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
@@ -27384,7 +27384,7 @@ const MainView = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_s(MainView, "7/hRHjCGNBjbcKBVtfaQ0WbIA9U=");
+_s(MainView, "aGMO4cb/MeMK4i1B+mRWUvIV/08=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -27440,7 +27440,7 @@ const MovieCard = ({ movie , onMovieClick  })=>{
         onClick: ()=>{
             onMovieClick(movie);
         },
-        children: movie.Title
+        children: movie.title
     }, void 0, false, {
         fileName: "src/components/movie-card/movie-card.jsx",
         lineNumber: 3,
@@ -27468,12 +27468,12 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MovieView", ()=>MovieView);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 const MovieView = ({ movie , onBackClick  })=>{
-    const genres = movie.Genre.map((genre)=>genre.Name).join(", ");
+    const genres = movie.genre.map((genre)=>genre.name).join(", ");
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                    src: movie.ImagePath,
+                    src: movie.imagePath,
                     alt: "Movie Cover"
                 }, void 0, false, {
                     fileName: "src/components/movie-view/movie-view.jsx",
@@ -27495,7 +27495,7 @@ const MovieView = ({ movie , onBackClick  })=>{
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.Title
+                        children: movie.title
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 11,
@@ -27517,7 +27517,7 @@ const MovieView = ({ movie , onBackClick  })=>{
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.Description
+                        children: movie.description
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 15,
@@ -27539,7 +27539,7 @@ const MovieView = ({ movie , onBackClick  })=>{
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.Director.Name
+                        children: movie.director.name
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 19,
@@ -27583,7 +27583,7 @@ const MovieView = ({ movie , onBackClick  })=>{
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        children: movie.Featured ? "yes" : "no"
+                        children: movie.featured ? "yes" : "no"
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 27,
