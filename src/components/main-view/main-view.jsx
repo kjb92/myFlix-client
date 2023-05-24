@@ -11,22 +11,19 @@ export const MainView = () => {
     fetch('https://myflix-kjb92.herokuapp.com/movies')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
             title: movie.title,
             description: movie.description,
             image: movie.imagePath,
-            director: movie.director.name,
-            genre: movie.genre
+            director: movie.director,
+            genre: movie.genre,
+            featured: movie.featured
           };
         });
 
         setMovies(moviesFromApi);
-      })
-      .catch((error) => {
-        console.log('Error fetching movies:', error);
       });
   }, []);
 
