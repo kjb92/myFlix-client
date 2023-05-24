@@ -7,6 +7,25 @@ export const MainView = () => {
 
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  useEffect(() => {
+    fetch("https://myflix-kjb92.herokuapp.com/movies")
+      .then((response) => response.json())
+      .then((data) => {
+        const moviesFromApi = data.map((movie) => {
+          return {
+            _id: movie._id,
+            title: movie.title,
+            description: movie.description,
+            image: movie.imagePath,
+            director: movie.director.name,
+            genre: movie.genre?.[0].name
+          };
+        });
+
+        setMovies(moviesFromApi);
+      });
+  }, []);
+
   if (selectedMovie) {
     return (
       <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)}/>
