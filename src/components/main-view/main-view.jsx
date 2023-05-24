@@ -8,9 +8,10 @@ export const MainView = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
-    fetch("https://myflix-kjb92.herokuapp.com/movies")
+    fetch('https://myflix-kjb92.herokuapp.com/movies')
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const moviesFromApi = data.map((movie) => {
           return {
             _id: movie._id,
@@ -23,6 +24,9 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
+      })
+      .catch((error) => {
+        console.log('Error fetching movies:', error);
       });
   }, []);
 
