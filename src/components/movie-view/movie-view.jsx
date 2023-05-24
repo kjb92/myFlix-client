@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-export const MovieView = ({movie, onBackClick}) => {
-  const genres = movie.genre.map(genre => genre.name).join(', ');
+export const MovieView = ({ movie, onBackClick }) => {
+  const genres = movie.genre.map((genre) => genre.name).join(", ");
 
   return (
     <div>
       <div>
-        <img src={movie.imagePath} alt="Movie Cover"/>
+        <img src={movie.image} alt="Movie Cover" />
       </div>
       <div>
         <span>Title: </span>
@@ -26,7 +26,7 @@ export const MovieView = ({movie, onBackClick}) => {
       </div>
       <div>
         <span>Featured: </span>
-        <span>{movie.featured ? "yes" : "no"}</span>      
+        <span>{movie.featured ? "yes" : "no"}</span>
       </div>
       <div>
         <button onClick={onBackClick}>Back</button>
@@ -40,7 +40,7 @@ MovieView.propTypes = {
   movie: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    imagePath: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
     director: PropTypes.object.isRequired,
     genre: PropTypes.array.isRequired,
     featured: PropTypes.bool.isRequired
