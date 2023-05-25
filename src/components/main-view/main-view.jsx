@@ -5,8 +5,8 @@ import { LoginView } from '../login-view/login-view';
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
-
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch('https://myflix-kjb92.herokuapp.com/movies')
@@ -28,6 +28,12 @@ export const MainView = () => {
       });
   }, []);
 
+  if (!user) {
+    return (
+      <LoginView />
+    );
+  }
+
   if (selectedMovie) {
     return (
       <MovieView movie={selectedMovie} onBackClick={() => setSelectedMovie(null)}/>
@@ -37,7 +43,7 @@ export const MainView = () => {
   if (movies.length === 0) {
     return (
       <div>The list is empty!</div>
-    )
+    );
   }
 
   return (
@@ -51,7 +57,7 @@ export const MainView = () => {
             setSelectedMovie(newSelectedMovie);
           }}
           />
-        )
+        );
       })}
     </div>
   );
