@@ -13,12 +13,11 @@ export const LoginView = ({ onLoggedIn }) => {
       password: password
     };
 
-    fetch('https://myflix-kjb92.herokuapp.com/login', {
+    fetch(`https://myflix-kjb92.herokuapp.com/login?username=${username}&password=${password}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+      }
     })
     .then((response) => response.json())
     .then((data) => {
@@ -55,7 +54,7 @@ export const LoginView = ({ onLoggedIn }) => {
         required
         />
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit">Login</button>
     </form>
   );
 };
