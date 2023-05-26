@@ -28355,4 +28355,4 @@ $RefreshReg$(_c, "MovieView");
 }
 },{"react/jsx-dev-runtime":"iTorj","prop-types":"7wKI2","@parcel/transformer-js/src/esmodule-helpers.js":"6eFdn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"jZBkA"}],"lJZlQ":[function() {},{}]},["i7sMh","4BHxR","d8Dch"], "d8Dch", "parcelRequireaec4")
 
-//# sourceMappingURL=index.b4b6dfad.js.map
+//# sourceMappingURL=index.js.map
