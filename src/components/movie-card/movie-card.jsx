@@ -5,6 +5,7 @@ export const MovieCard = ({ movie, onMovieClick }) => {
   return (
     <Card 
       style={{ width: '18rem' }}
+      className="h-100"
       onClick={() => {
             onMovieClick(movie);
           }}
