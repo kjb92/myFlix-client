@@ -70,19 +70,30 @@ export const MainView = () => {
       ) : movies.length === 0 ? (
         <div>The list is empty!</div>
       ) : (
-        <>
-          {movies.map((movie) => {
-            return (
-              <MovieCard
-              key={movie._id}
-              movie={movie}
-              onMovieClick={(newSelectedMovie) => {
-                setSelectedMovie(newSelectedMovie);
-              }}
-              />
-            );
-          })}
-        </>
+        <Col md={8}>
+          <>
+            {movies.map((movie) => {
+              return (
+                <MovieCard
+                key={movie._id}
+                movie={movie}
+                onMovieClick={(newSelectedMovie) => {
+                  setSelectedMovie(newSelectedMovie);
+                }}
+                />
+              );
+            })}
+          </>
+          <>
+            <button
+              onClick={() => {
+                setUser(null);
+                setToken(null);
+                localStorage.clear();
+              }}>Logout
+            </button>
+          </>
+        </Col>
       )}
     </Row>
   );
