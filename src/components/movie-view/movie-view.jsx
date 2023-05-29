@@ -1,12 +1,30 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, username, token }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m._id === movieId);
   const genres = movie.genre.map((genre) => genre.name).join(", ");
-
+  
+  const handleAddToFavorites = () => {
+    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Movie added to favorites:', data);
+        alert('Movie added to favorites');
+      })
+      .catch(error => {
+        console.error('Error adding movie to favorites:', error);
+      });
+  };
+  
   return (
     <div>
       <div>
@@ -32,6 +50,9 @@ export const MovieView = ({ movies }) => {
         <span>Featured: </span>
         <span>{movie.featured ? "yes" : "no"}</span>
       </div>
+      <Button variant="primary" onClick={handleAddToFavorites}>
+          Add to Favorites
+        </Button>
       <Link to={`/`}>
         <button className="back-button">Back</button>
       </Link>
