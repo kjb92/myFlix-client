@@ -140,7 +140,7 @@ export const ProfileView = ({ user, token, movies }) => {
       <h3>Favorite Movies</h3>
       {favoriteMovies.length > 0 ? (
         favoriteMovies.map((movie) => (
-          <MovieCard key={movie._id} movie={movie} user={user} token={token} />
+          <MovieCard key={movie._id} movie={movie} username={user.username} token={token} />
         ))
       ) : (
         <p>No favorite movies found.</p>

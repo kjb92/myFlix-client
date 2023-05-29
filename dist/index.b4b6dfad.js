@@ -27445,7 +27445,7 @@ const MainView = ()=>{
                                                     md: 3,
                                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
                                                         movie: movie,
-                                                        user: user,
+                                                        username: user.username,
                                                         token: token
                                                     }, void 0, false, void 0, void 0)
                                                 }, movie._id, false, void 0, void 0);
@@ -47227,7 +47227,7 @@ const ProfileView = ({ user , token , movies  })=>{
             }, undefined),
             favoriteMovies.length > 0 ? favoriteMovies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCard.MovieCard), {
                     movie: movie,
-                    user: user,
+                    username: user.username,
                     token: token
                 }, movie._id, false, {
                     fileName: "src/components/profile-view/profile-view.jsx",
