@@ -47071,7 +47071,7 @@ const ProfileView = ({ user , token , movies  })=>{
     };
     const handleDeregister = (e)=>{
         e.preventDefault();
-        fetch(`https://myflix-kjb92.herokuapp.com/users/${username}`, {
+        fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
