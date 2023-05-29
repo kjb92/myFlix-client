@@ -32,7 +32,7 @@ export const ProfileView = ({ user, token, movies }) => {
   }, []);  
 
    // Filter the movies array to get the user's favorite movies
-   const favoriteMovies = movies.filter((m) => user.favoriteMovies.includes(m._id));
+   let favoriteMovies = movies.filter((m) => user.favoriteMovies.includes(m._id));
   
   // Update the form fields with the user's current profile information
   useEffect(() => {
@@ -64,9 +64,16 @@ export const ProfileView = ({ user, token, movies }) => {
     })
       .then(response => response.json())
       .then(data => {
+        
         // Handle the response or perform any necessary actions
         console.log('User profile updated successfully:', data);
         alert('User profile updated successfully!');
+        // Update the state variables with the updated data
+        setUsername(data.username);
+        setPassword(data.password);
+        setEmail(data.email);
+        setBirthday(data.birthday);
+        setUserProfile(data);
       })
       .catch(error => {
         console.error('Error updating user profile:', error);
