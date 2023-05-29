@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
 
 export const ProfileView = ({ user, token, movies }) => {
-  const [userProfile, setUserProfile] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -30,6 +30,9 @@ export const ProfileView = ({ user, token, movies }) => {
         console.error('Error fetching user profile:', error);
       });
   }, []);  
+
+   // Filter the movies array to get the user's favorite movies
+   const favoriteMovies = movies.filter((m) => user.favoriteMovies.includes(m._id));
   
   // Update the form fields with the user's current profile information
   useEffect(() => {
@@ -51,7 +54,7 @@ export const ProfileView = ({ user, token, movies }) => {
       birthday: birthday
     };
   
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}`, {
+    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -84,15 +87,12 @@ export const ProfileView = ({ user, token, movies }) => {
       .then(data => {
         // Handle the response or perform any necessary actions
         console.log('User was deleted successfully:', data);
-        alert(data);
+        alert('User was deleted successfully!');
       })
       .catch(error => {
         console.error('Error deleting user', error);
       });
   };
-
-  // Filter the movies array to get the user's favorite movies
-  const favoriteMovies = movies.filter((m) => user.favoriteMovies.includes(m._id));
 
   return (
     <div>

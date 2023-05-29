@@ -47014,7 +47014,7 @@ var _movieCard = require("../movie-card/movie-card");
 var _s = $RefreshSig$();
 const ProfileView = ({ user , token , movies  })=>{
     _s();
-    const [userProfile, setUserProfile] = (0, _react.useState)("");
+    const [userProfile, setUserProfile] = (0, _react.useState)(null);
     const [username, setUsername] = (0, _react.useState)("");
     const [password, setPassword] = (0, _react.useState)("");
     const [email, setEmail] = (0, _react.useState)("");
@@ -47033,6 +47033,8 @@ const ProfileView = ({ user , token , movies  })=>{
             console.error("Error fetching user profile:", error);
         });
     }, []);
+    // Filter the movies array to get the user's favorite movies
+    const favoriteMovies = movies.filter((m)=>user.favoriteMovies.includes(m._id));
     // Update the form fields with the user's current profile information
     (0, _react.useEffect)(()=>{
         if (userProfile) {
@@ -47052,7 +47054,7 @@ const ProfileView = ({ user , token , movies  })=>{
             email: email,
             birthday: birthday
         };
-        fetch(`https://myflix-kjb92.herokuapp.com/users/${username}`, {
+        fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -47078,13 +47080,11 @@ const ProfileView = ({ user , token , movies  })=>{
         }).then((response)=>response.json()).then((data)=>{
             // Handle the response or perform any necessary actions
             console.log("User was deleted successfully:", data);
-            alert(data);
+            alert("User was deleted successfully!");
         }).catch((error)=>{
             console.error("Error deleting user", error);
         });
     };
-    // Filter the movies array to get the user's favorite movies
-    const favoriteMovies = movies.filter((m)=>userProfile.favoriteMovies.includes(m._id));
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
@@ -47250,7 +47250,7 @@ const ProfileView = ({ user , token , movies  })=>{
         columnNumber: 5
     }, undefined);
 };
-_s(ProfileView, "nVXU0ipOeJ54gX6UL1QKaJDHIqM=");
+_s(ProfileView, "qiVfpOdhxJsNJKmMO1GUIlcPMGc=");
 _c = ProfileView;
 // Here is where we define all the props constraints for the ProfileView
 ProfileView.propTypes = {
