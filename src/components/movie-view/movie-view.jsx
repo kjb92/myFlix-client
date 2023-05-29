@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
-  const movie = movies.find((m) => m.id === movieId);
+  const movie = movies.find((m) => m._id === movieId);
   const genres = movie.genre.map((genre) => genre.name).join(", ");
 
   return (
@@ -40,12 +41,22 @@ export const MovieView = ({ movies }) => {
 
 // Here is where we define all the props constraints for the BookCard
 MovieView.propTypes = {
-  movie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    director: PropTypes.object.isRequired,
-    genre: PropTypes.array.isRequired,
-    featured: PropTypes.bool.isRequired
-  }).isRequired
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      director: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+      genre: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+      featured: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
 };
+
