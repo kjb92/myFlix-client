@@ -1,14 +1,12 @@
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, onMovieClick }) => {
+export const MovieCard = ({ movie }) => {
   return (
     <Card 
       style={{ width: '18rem' }}
       className="h-100"
-      onClick={() => {
-            onMovieClick(movie);
-          }}
     >
       <Card.Img variant="top" src={movie.image} />
       <Card.Body>
@@ -16,23 +14,19 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         <Card.Text>
           {movie.description}
         </Card.Text>
-        <Button variant="primary">Open</Button>
+        <Link to={`/movies/${encodedURIComponent(movie.id)}`}>
+          <Button variant="link">Open</Button>
+        </Link>
       </Card.Body>
     </Card>
-    // <div
-    //   onClick={() => {
-    //     onMovieClick(movie);
-    //   }}
-    // >
-    //   {movie.title}
-    // </div>
   );
 };
 
 // Here is where we define all the props constraints for the BookCard
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    title: PropTypes.string.isRequired
-  }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired
 };

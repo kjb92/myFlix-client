@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
+import { useParams } from "react-router";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find((m) => m.id === movieId);
   const genres = movie.genre.map((genre) => genre.name).join(", ");
 
   return (
@@ -28,9 +31,9 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Featured: </span>
         <span>{movie.featured ? "yes" : "no"}</span>
       </div>
-      <div>
-        <button onClick={onBackClick}>Back</button>
-      </div>
+      <Link to={`/`}>
+        <button className="back-button">Back</button>
+      </Link>
     </div>
   );
 };
@@ -44,6 +47,5 @@ MovieView.propTypes = {
     director: PropTypes.object.isRequired,
     genre: PropTypes.array.isRequired,
     featured: PropTypes.bool.isRequired
-  }).isRequired,
-  onBackClick: PropTypes.func.isRequired
+  }).isRequired
 };
