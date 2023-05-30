@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieView = ({ movies, username, token }) => {
   const { movieId } = useParams();
+  const navigate = useNavigate();
+  const goBack = () => { navigate(-1) };
   const movie = movies.find((m) => m._id === movieId);
   const genres = movie.genre.map((genre) => genre.name).join(", ");
   
@@ -52,10 +55,10 @@ export const MovieView = ({ movies, username, token }) => {
       </div>
       <Button variant="primary" onClick={handleAddToFavorites}>
           Add to Favorites
-        </Button>
-      <Link to={`/`}>
-        <button className="back-button">Back</button>
-      </Link>
+      </Button>
+      <Button variant="secondary" onClick={goBack}>
+        Back
+      </Button>
     </div>
   );
 };
