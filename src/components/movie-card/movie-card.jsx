@@ -1,9 +1,28 @@
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+
 
 export const MovieCard = ({ movie, username, token }) => {
+  const location = useLocation();
   const handleAddToFavorites = () => {
+    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Movie added to favorites:', data);
+        alert('Movie added to favorites');
+      })
+      .catch(error => {
+        console.error('Error adding movie to favorites:', error);
+      });
+  };
+  const handleRemoveFromFavorites = () => {
     fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
       method: 'POST',
       headers: {
@@ -34,9 +53,17 @@ export const MovieCard = ({ movie, username, token }) => {
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Button variant="link">Open</Button>
         </Link>
-        <Button variant="primary" onClick={handleAddToFavorites}>
-          Add to Favorites
-        </Button>
+          <>
+            {location.pathname === '/profile' ? (
+              <Button variant="primary" onClick={handleRemoveFromFavorites}>
+                Remove from Favorites
+              </Button>
+            ) : (
+            <Button variant="primary" onClick={handleAddToFavorites}>
+              Add to Favorites
+            </Button>
+            )}
+          </>
       </Card.Body>
     </Card>
   );
