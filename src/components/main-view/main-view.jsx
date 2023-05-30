@@ -18,6 +18,16 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
+  //Function to update localStorage
+  const updateLocalStorage = (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+  
+  //Function to update user
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
   useEffect(() => {
     if (!token) {
       return;
@@ -48,6 +58,11 @@ export const MainView = () => {
         console.error('Error fetching movies:', error);
       });
   }, [token]);
+
+  //Update the setUser hook to call the updateLocalStorage function whenever the user state changes
+  useEffect(() => {
+    updateLocalStorage(user);
+  }, [user]);
 
   return (
     <BrowserRouter>
@@ -146,7 +161,12 @@ export const MainView = () => {
                       {movies.map((movie) => {
                         return (
                           <Col className="mb-5" key={movie._id} md={3}>
-                            <MovieCard movie={movie} username={user.username} token={token} />
+                            <MovieCard 
+                              movie={movie} 
+                              username={user.username} 
+                              token={token} 
+                              updateUser={updateUser}
+                            />
                           </Col>
                         );
                       })}
