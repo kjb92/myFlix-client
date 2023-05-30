@@ -24,18 +24,18 @@ export const MovieCard = ({ movie, username, token }) => {
   };
   const handleRemoveFromFavorites = () => {
     fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Movie added to favorites:', data);
-        alert('Movie added to favorites');
+        console.log('Movie removed from favorites:', data);
+        alert('Movie removed from favorites!');
       })
       .catch(error => {
-        console.error('Error adding movie to favorites:', error);
+        console.error('Error removing movie from favorites:', error);
       });
   };
   
