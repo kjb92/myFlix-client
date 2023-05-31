@@ -15,17 +15,33 @@ export const MainView = () => {
   const storedToken = JSON.parse(localStorage.getItem("token"));
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [favoriteMovies, setFavoriteMovies] = useState([])
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-  //Function to update localStorage
-  const updateLocalStorage = (user) => {
-    localStorage.setItem("user", JSON.stringify(user));
+  //Fill user with localStorage data if existing
+  if(!user && storedUser) {
+    setUser(storedUser);
+    setToken(storedToken);
+    setFavoriteMovies(storedUser.FavoriteMovies);
   };
   
   //Function to update user
   const updateUser = (updatedUser) => {
     setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+
+  //variables for favorite list and similar movies
+  if (user) {
+    var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -35,6 +51,7 @@ export const MainView = () => {
 
     fetch('https://myflix-kjb92.herokuapp.com/movies', {
       headers: { 
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
@@ -59,21 +76,20 @@ export const MainView = () => {
       });
   }, [token]);
 
-  //Update the setUser hook to call the updateLocalStorage function whenever the user state changes
-  useEffect(() => {
-    updateLocalStorage(user);
-  }, [user]);
 
   return (
     <BrowserRouter>
-      <NavigationBar 
-        user={user}
-        onLoggedOut={(user, token) => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        }}
-      />
+      <Row>
+        <Col>
+          <NavigationBar
+            user={user}
+            handleLogout={handleLogout}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col className="mt-5"></Col>
+      </Row>
       <Row>
         <Routes>
           <Route
@@ -102,6 +118,7 @@ export const MainView = () => {
                       onLoggedIn={(user, token) => {
                         setUser(user);
                         setToken(token);
+                        setFavoriteMovies(user.favoriteMovies);
                       }}
                     />                  
                   </Col>
@@ -136,11 +153,15 @@ export const MainView = () => {
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : (
-                  <Col md={8}>
+                  <Col>
                     <ProfileView 
                       user={user}
                       token={token}
                       movies={movies}
+                      updateUser={updateUser}
+                      handleLogout={handleLogout}
+                      favoriteMovieList={favoriteMovieList} 
+                      favoriteMovies={favoriteMovies}
                     />
                   </Col>
                 )}
@@ -160,25 +181,17 @@ export const MainView = () => {
                     <>
                       {movies.map((movie) => {
                         return (
-                          <Col className="mb-5" key={movie._id} md={3}>
+                          <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
                             <MovieCard 
                               movie={movie} 
-                              username={user.username} 
+                              user={user} 
                               token={token} 
                               updateUser={updateUser}
+                              favoriteMovies={favoriteMovies}
                             />
                           </Col>
                         );
                       })}
-                    </>
-                    <>
-                      <button
-                        onClick={() => {
-                          setUser(null);
-                          setToken(null);
-                          localStorage.clear();
-                        }}>Logout
-                      </button>
                     </>
                   </>
                 )}

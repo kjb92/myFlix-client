@@ -7,41 +7,41 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 // Import corresponding Sass file
 import "./movie-card.scss";
 
-export const MovieCard = ({ movie, username, token, updateUser }) => {
+export const MovieCard = ({ movie, user, token, updateUser, favoriteMovies }) => {
   const location = useLocation();
   const linkToMovie = `/movies/${encodeURIComponent(movie._id)}`;
-  
-  // Retrieve user & favoriteMovies from localStorage
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const favoriteMovies = storedUser.favoriteMovies;
 
   // Check if the movie is a favorite
-  const isFavorite = favoriteMovies.includes(movie._id);
+  const isFavorite = user.favoriteMovies.includes(movie._id);
   
   // Add this movie to list of favorite movies
   const handleAddToFavorites = () => {
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
+    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}/movies/${movie._id}`, {
       method: 'POST',
       headers: {
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
       .then(response => response.json())
       .then(data => {
-        updateUser(data);
         console.log('Movie added to favorites:', data);
         alert('Movie added to favorites');
+        localStorage.setItem("user", JSON.stringify(data));
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error adding movie to favorites:', error);
+        alert('Something went wrong' + error);
       });
   };
 
   // Remove this movie from list of favorite movies
   const handleRemoveFromFavorites = () => {
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
+    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}/movies/${movie._id}`, {
       method: 'DELETE',
       headers: {
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
@@ -50,9 +50,12 @@ export const MovieCard = ({ movie, username, token, updateUser }) => {
         updateUser(data);
         console.log('Movie removed from favorites:', data);
         alert('Movie removed from favorites!');
+        localStorage.setItem("user", JSON.stringify(data));
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error removing movie from favorites:', error);
+        alert('Something went wrong' + error);
       });
   };
 
@@ -67,7 +70,7 @@ export const MovieCard = ({ movie, username, token, updateUser }) => {
   
   return (
     <Card
-      style={{ width: '18rem' }}
+      style={{ width: '16rem' }}
       className="h-100"
     >
       <div style={{ position: 'relative' }}>
@@ -101,13 +104,13 @@ export const MovieCard = ({ movie, username, token, updateUser }) => {
 };
 
 // Here is where we define all the props constraints for the MovieCard
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
-  }).isRequired,
-  username: PropTypes.string.isRequired,
-  token: PropTypes.string.isRequired
-};
+// MovieCard.propTypes = {
+//   movie: PropTypes.shape({
+//     _id: PropTypes.string.isRequired,
+//     title: PropTypes.string.isRequired,
+//     image: PropTypes.string.isRequired,
+//     description: PropTypes.string.isRequired
+//   }).isRequired,
+//   username: PropTypes.string.isRequired,
+//   token: PropTypes.string.isRequired
+// };
