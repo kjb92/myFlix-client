@@ -15,6 +15,7 @@ export const MovieView = ({ movies, username, token }) => {
     fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
       method: 'POST',
       headers: {
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
@@ -53,9 +54,6 @@ export const MovieView = ({ movies, username, token }) => {
         <span>Featured: </span>
         <span>{movie.featured ? "yes" : "no"}</span>
       </div>
-      <Button variant="primary" onClick={handleAddToFavorites}>
-          Add to Favorites
-      </Button>
       <Button variant="secondary" onClick={goBack}>
         Back
       </Button>
