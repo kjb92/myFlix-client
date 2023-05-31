@@ -4,30 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieView = ({ movies, username, token }) => {
+export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const goBack = () => { navigate(-1) };
   const movie = movies.find((m) => m._id === movieId);
   const genres = movie.genre.map((genre) => genre.name).join(", ");
-  
-  const handleAddToFavorites = () => {
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${username}/movies/${movie._id}`, {
-      method: 'POST',
-      headers: {
-        "Content-Type" : "application/JSON",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Movie added to favorites:', data);
-        alert('Movie added to favorites');
-      })
-      .catch(error => {
-        console.error('Error adding movie to favorites:', error);
-      });
-  };
+
   
   return (
     <div>
