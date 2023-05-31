@@ -73,6 +73,8 @@ export const UserInfo = ({ user, token }) => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            pattern="[a-zA-Z0-9]+"
+            required
           />
         </Form.Group>
         <Form.Group controlId="formPassword">
@@ -81,6 +83,7 @@ export const UserInfo = ({ user, token }) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formEmail">
@@ -89,6 +92,7 @@ export const UserInfo = ({ user, token }) => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </Form.Group>
         <Form.Group controlId="formDateOfBirth">
@@ -97,6 +101,7 @@ export const UserInfo = ({ user, token }) => {
             type="date"
             value={birthday}
             onChange={(e) => setBirthday(e.target.value)}
+            required
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
