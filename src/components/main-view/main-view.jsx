@@ -158,10 +158,6 @@ export const MainView = () => {
                       user={user}
                       token={token}
                       movies={movies}
-                      updateUser={updateUser}
-                      handleLogout={handleLogout}
-                      favoriteMovieList={favoriteMovieList} 
-                      favoriteMovies={favoriteMovies}
                     />
                   </Col>
                 )}
@@ -186,8 +182,6 @@ export const MainView = () => {
                               movie={movie} 
                               user={user} 
                               token={token} 
-                              updateUser={updateUser}
-                              favoriteMovies={favoriteMovies}
                             />
                           </Col>
                         );

@@ -113,14 +113,14 @@ export const UserInfo = ({ user, token }) => {
 };
 
 // Here is where we define all the props constraints
-// UserInfo.propTypes = {
-//   user: PropTypes.shape({
-//       _id: PropTypes.string.isRequired,
-//       username: PropTypes.string.isRequired,
-//       email: PropTypes.string.isRequired,
-//       password: PropTypes.string.isRequired,
-//       favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
-//       .isRequired,
-//       }).isRequired,
-//   token: PropTypes.string.isRequired
-// };
+UserInfo.propTypes = {
+  user: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      password: PropTypes.string.isRequired,
+      favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+      .isRequired,
+      }).isRequired,
+  token: PropTypes.string.isRequired
+};

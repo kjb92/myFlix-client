@@ -7,7 +7,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 // Import corresponding Sass file
 import "./movie-card.scss";
 
-export const MovieCard = ({ movie, user, token, updateUser, favoriteMovies }) => {
+export const MovieCard = ({ movie, user, token }) => {
   const location = useLocation();
   const linkToMovie = `/movies/${encodeURIComponent(movie._id)}`;
 
@@ -103,14 +103,21 @@ export const MovieCard = ({ movie, user, token, updateUser, favoriteMovies }) =>
   );
 };
 
-// Here is where we define all the props constraints for the MovieCard
-// MovieCard.propTypes = {
-//   movie: PropTypes.shape({
-//     _id: PropTypes.string.isRequired,
-//     title: PropTypes.string.isRequired,
-//     image: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired
-//   }).isRequired,
-//   username: PropTypes.string.isRequired,
-//   token: PropTypes.string.isRequired
-// };
+// Here is where we define all the props constraints
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired
+  }).isRequired,
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string,
+    birthday: PropTypes.string,
+    favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+    }).isRequired,
+  token: PropTypes.string.isRequired
+};

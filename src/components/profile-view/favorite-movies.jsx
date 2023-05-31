@@ -3,7 +3,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-export const FavoriteMovies = ({ user, token, updateUser, movies }) => {
+export const FavoriteMovies = ({ user, token, movies }) => {
   const favoriteMovieList = movies.filter((m) => user.favoriteMovies.includes(m._id));
 
   return (
@@ -31,22 +31,31 @@ export const FavoriteMovies = ({ user, token, updateUser, movies }) => {
 };
 
 // Here is where we define all the props constraints
-// FavoriteMovies.propTypes = {
-//   favoriteMovies: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       _id: PropTypes.string.isRequired,
-//       title: PropTypes.string.isRequired,
-//       description: PropTypes.string.isRequired,
-//       image: PropTypes.string.isRequired,
-//       director: PropTypes.shape({
-//         name: PropTypes.string.isRequired,
-//       }).isRequired,
-//       genre: PropTypes.arrayOf(
-//         PropTypes.shape({
-//           name: PropTypes.string.isRequired,
-//         })
-//       ).isRequired,
-//       featured: PropTypes.bool.isRequired,
-//     })
-//   ).isRequired
-// };
+FavoriteMovies.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      director: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+      genre: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+      featured: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string,
+    birthday: PropTypes.string,
+    favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+    }).isRequired,
+  token: PropTypes.string.isRequired
+};

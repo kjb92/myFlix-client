@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -30,4 +31,19 @@ export const NavigationBar = ({ user, handleLogout }) => {
     </Navbar>
   );
 };
+
+// Here is where we define all the props constraints
+NavigationBar.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string,
+    birthday: PropTypes.string,
+    favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+    }).isRequired,
+  handleLogout: PropTypes.func.isRequired
+};
+
+
 

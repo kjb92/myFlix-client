@@ -72,3 +72,8 @@ export const LoginView = ({ onLoggedIn }) => {
     </>
   );
 };
+
+// Here is where we define all the props constraints
+LoginView.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired
+};
