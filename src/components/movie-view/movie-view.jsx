@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
@@ -13,34 +15,41 @@ export const MovieView = ({ movies }) => {
 
   
   return (
-    <div>
-      <div>
-        <img className="w-100" src={movie.image} alt="Movie Cover" />
-      </div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.title}</span>
-      </div>
-      <div>
-        <span>Description: </span>
-        <span>{movie.description}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.director.name}</span>
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{genres}</span>
-      </div>
-      <div>
-        <span>Featured: </span>
-        <span>{movie.featured ? "yes" : "no"}</span>
-      </div>
-      <Button variant="secondary" onClick={goBack}>
-        Back
-      </Button>
-    </div>
+    <>
+      <Row className="mt-3">
+        <Col>
+          <Button variant="secondary" onClick={goBack}>
+            Back
+          </Button>
+        </Col>
+      </Row>
+      <Row className="fw-bold fs-1 mb-3">
+        <Col>{movie.title}</Col>
+      </Row>
+      <Col className="mb-5">
+        <Row className="border-top border-bottom border-secondary">
+          <Col xs= {5} sm={2}>
+            <b>Genre:</b>
+          </Col>
+          <Col xs={10}>{genres}</Col>
+        </Row>
+        <Row className="border-bottom border-secondary">
+          <Col xs= {5} sm={2}>
+            <b>Description:</b> 
+          </Col>
+          <Col xs={10}>{movie.description}</Col>
+        </Row>
+        <Row className="border-bottom border-secondary">
+          <Col xs= {5} sm={2}>
+            <b>Director: </b>
+          </Col>
+          <Col xs={10} className="fs-6">{movie.director.name}</Col>
+        </Row>
+      </Col>
+      <Row className="w-50">
+        <img src={movie.image} alt="Movie Cover" />
+        </Row>
+    </>
   );
 };
 
