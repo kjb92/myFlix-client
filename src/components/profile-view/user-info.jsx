@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
+import Stack from 'react-bootstrap/Stack';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 export const UserInfo = ({ user, token }) => {
-  const [userProfile, setUserProfile] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [username, setUsername] = useState(`${user.username}`);
+  const [password, setPassword] = useState(`${user.password}`);
+  const [email, setEmail] = useState(`${user.email}`);
+  const [birthday, setBirthday] = useState(`${user.birthday.split("T")[0]}`);
 
   const updateUserProfile = (e) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export const UserInfo = ({ user, token }) => {
     fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(updatedUserData)
@@ -33,13 +35,7 @@ export const UserInfo = ({ user, token }) => {
         console.log('User profile updated successfully:', data);
         alert('User profile updated successfully!');
         // Update the state variables with the updated data
-        setUsername(data.username);
-        setPassword(data.password);
-        setEmail(data.email);
-        setBirthday(data.birthday);
-        setUserProfile(data);
-        //Somehow "refresh" the view and update the user prop with the updated user details
-        //...
+        localStorage.setItem("user", JSON.stringify(data));
       })
       .catch(error => {
         console.error('Error updating user profile:', error);
@@ -52,54 +48,24 @@ export const UserInfo = ({ user, token }) => {
     fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
-      .then(response => response.json())
       .then(data => {
         // Handle the response or perform any necessary actions
         console.log('User was deleted successfully:', data);
         alert('User was deleted successfully!');
+        localStorage.clear();
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error deleting user', error);
       });
   };
 
-  //Fetch current user's profile information
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-
-    fetch('https://myflix-kjb92.herokuapp.com/users', {
-      method: 'GET',
-      headers: { 
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserProfile(data.find((u) => u.username === user.username));
-      })
-      .catch((error) => {
-        console.error('Error fetching user profile:', error);
-      });
-  }, [userProfile]);  
-
-  // Update the form fields with the user's current profile information
-  useEffect(() => {
-    if (userProfile) {
-      setUsername(userProfile.username);
-      setPassword(userProfile.password);
-      setEmail(userProfile.email);
-      setBirthday(userProfile.birthday);
-    }
-  }, [userProfile]);
-
   return (
-    <div>
+    <Col>
       <Form onSubmit={updateUserProfile}>
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
@@ -133,29 +99,28 @@ export const UserInfo = ({ user, token }) => {
             onChange={(e) => setBirthday(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Update
-        </Button>
-        <Button variant="danger" onClick={handleDeregister}>
-          Deregister
-        </Button>
+        <Stack direction="horizontal" gap={3} className="mt-3">
+          <Button variant="primary" type="submit">
+            Update
+          </Button>
+          <Button variant="danger" onClick={handleDeregister}>
+            Deregister
+          </Button>
+        </Stack>
       </Form>
-    </div>
+    </Col>
   );
 };
 
 // Here is where we define all the props constraints
-UserInfo.propTypes = {
-  user: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
-      favoriteMovies: PropTypes.arrayOf(
-        PropTypes.shape({
-          _id: PropTypes.string.isRequired
-        })
-      ).isRequired,
-      }).isRequired,
-  token: PropTypes.string.isRequired
-};
+// UserInfo.propTypes = {
+//   user: PropTypes.shape({
+//       _id: PropTypes.string.isRequired,
+//       username: PropTypes.string.isRequired,
+//       email: PropTypes.string.isRequired,
+//       password: PropTypes.string.isRequired,
+//       favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+//       .isRequired,
+//       }).isRequired,
+//   token: PropTypes.string.isRequired
+// };

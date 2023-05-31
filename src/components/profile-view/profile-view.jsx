@@ -41,7 +41,7 @@ export const ProfileView = ({ user, token, movies, updateUser, handleLogout, fav
       </Row>
       <Row>
         <Col md={5}>
-          <UserInfo user={user} userProfile={userProfile} token={token} updateUser={updateUser} handleLogout={handleLogout} />
+          <UserInfo user={user} token={token} />
         </Col>
       </Row>
       <Row>
