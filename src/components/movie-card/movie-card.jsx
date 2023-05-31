@@ -47,7 +47,6 @@ export const MovieCard = ({ movie, user, token }) => {
     })
       .then(response => response.json())
       .then(data => {
-        updateUser(data);
         console.log('Movie removed from favorites:', data);
         alert('Movie removed from favorites!');
         localStorage.setItem("user", JSON.stringify(data));

@@ -17,7 +17,7 @@ export const FavoriteMovies = ({ user, token, movies }) => {
         {user.favoriteMovies.length > 0 ? (
           favoriteMovieList.map((movie) => (
             <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
-              <MovieCard movie={movie} user={user} token={token} updateUser={updateUser} favoriteMovies={user.favoriteMovies}/>
+              <MovieCard movie={movie} user={user} token={token}/>
             </Col>
           ))
         ) : (
