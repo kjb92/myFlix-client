@@ -38,9 +38,9 @@ NavigationBar.propTypes = {
     _id: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    password: PropTypes.string,
-    birthday: PropTypes.string,
+    password: PropTypes.string.isRequired,
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
+    .isRequired,
     }).isRequired,
   handleLogout: PropTypes.func.isRequired
 };
