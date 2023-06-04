@@ -39,13 +39,12 @@ export const NavigationBar = ({ handleLogout, filterMovies }) => {
               <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Form className="d-flex">
+          <Form className="d-flex" onSubmit={handleSearchSubmit}>
             <Form.Control
               type="search"
               placeholder="Search"
               className="me-2"
               aria-label="Search"
-              id="searchMovies"
               value={searchTerm} // Set the value of the search input to the state variable
               onChange={handleSearchChange} // Add onChange event handler to update the search term state
             />
