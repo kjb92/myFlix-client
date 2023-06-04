@@ -1,48 +1,67 @@
+import { useState } from 'react';
 import PropTypes from "prop-types";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
 
-export const NavigationBar = ({ user, handleLogout }) => {
+
+export const NavigationBar = ({ handleLogout, filterMovies }) => {
+  const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value); // Update search term state
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    filterMovies(searchTerm); // Call filterMovies prop function with search term
+  };
+  
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
+    <>
+      <Navbar bg="light" expand="lg">
+      <Container fluid>
         <Navbar.Brand as={Link} to="/">myFlix</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <>
-            {user ? (
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/">Home</Nav.Link>
-                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-              </Nav>
-            ) : (
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
-              </Nav>
-            )}
-          </>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: '100px' }}
+            navbarScroll
+          >
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <NavDropdown title="Profile" id="navbarScrollingDropdown">
+              <NavDropdown.Item as={Link} to="/profile">View Profile</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+              id="searchMovies"
+              value={searchTerm} // Set the value of the search input to the state variable
+              onChange={handleSearchChange} // Add onChange event handler to update the search term state
+            />
+            <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
+          </Form>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+      </Navbar>
+    </>
   );
 };
 
 // Here is where we define all the props constraints
 NavigationBar.propTypes = {
-  user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
-    .isRequired,
-    }).isRequired,
-  handleLogout: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired,
+  filterMovies: PropTypes.func.isRequired
 };
 
 

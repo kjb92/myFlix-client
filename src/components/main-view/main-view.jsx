@@ -44,6 +44,17 @@ export const MainView = () => {
     window.location.reload();
   };
 
+  const filterMovies = (searchTerm) => {
+    if (!searchTerm) {
+      setMovies(movies); // Reset movies to original list if searchTerm is empty
+    } else {
+      let filteredMovies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setMovies(filteredMovies); // Update movies with filtered list
+    }
+  }; 
+
   useEffect(() => {
     if (!token) {
       return;
@@ -82,8 +93,8 @@ export const MainView = () => {
       <Row>
         <Col>
           <NavigationBar
-            user={user}
             handleLogout={handleLogout}
+            filterMovies={filterMovies}
           />
         </Col>
       </Row>
