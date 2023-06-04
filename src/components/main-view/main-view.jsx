@@ -33,13 +33,13 @@ export const MainView = () => {
     var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
   };
 
+  //Handle logout
   const handleLogout = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
     window.location.reload();
   };
-
 
   useEffect(() => {
     if (!token) {
