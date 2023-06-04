@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -7,18 +7,37 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 
+export const NavigationBar = ({ handleLogout, movies, setFilteredMovies  }) => {
+  const [query, setQuery] = useState(""); // Add state for search term
 
-export const NavigationBar = ({ handleLogout, filterMovies }) => {
-  const [searchTerm, setSearchTerm] = useState(""); // Add state for search term
-
+  //Handle search change
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value); // Update search term state
+    setQuery(event.target.value); // Update search term state
   };
 
+  //Handle search submit
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    filterMovies(searchTerm); // Call filterMovies prop function with search term
+  
+    const filteredMovies = movies.filter((movie) => {
+      const title = movie.title.toLowerCase();
+      const searchTerm = query.toLowerCase();
+      return title.includes(searchTerm);
+    });
+  
+    setFilteredMovies(filteredMovies);
   };
+
+
+  //Clear search when query is empty
+  useEffect(() => {
+    if (query) {
+      return;
+    }
+
+    setFilteredMovies(null);
+  }, [query]);
+
   
   return (
     <>
@@ -45,7 +64,7 @@ export const NavigationBar = ({ handleLogout, filterMovies }) => {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
-              value={searchTerm} // Set the value of the search input to the state variable
+              value={query} // Set the value of the search input to the state variable
               onChange={handleSearchChange} // Add onChange event handler to update the search term state
             />
             <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
@@ -60,7 +79,7 @@ export const NavigationBar = ({ handleLogout, filterMovies }) => {
 // Here is where we define all the props constraints
 NavigationBar.propTypes = {
   handleLogout: PropTypes.func.isRequired,
-  filterMovies: PropTypes.func.isRequired
+  setFilteredMovies: PropTypes.func.isRequired
 };
 
 
