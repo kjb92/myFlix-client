@@ -9,7 +9,6 @@ import "./save-button.scss";
 
 export const SaveButton = ({ movie, user, token }) => {
   const location = useLocation();
-  const linkToMovie = `/movies/${encodeURIComponent(movie._id)}`;
 
   // Check if the movie is a favorite
   const isFavorite = user.favoriteMovies.includes(movie._id);
