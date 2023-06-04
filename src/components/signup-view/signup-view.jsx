@@ -93,7 +93,7 @@ export const SignupView = () => {
       <Row>
         <Col className="mt-3"></Col>
       </Row>
-      <Link to='/signup'>Already have an account? <b>Login now</b></Link>
+      <Link to='/login'>Already have an account? <b>Login now</b></Link>
     </>
   );
 };

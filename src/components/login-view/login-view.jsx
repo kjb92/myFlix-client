@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { Link } from "react-router-dom";
+
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -70,6 +72,10 @@ export const LoginView = ({ onLoggedIn }) => {
           </Button>
         </Stack>
       </Form>
+      <Row>
+        <Col className="mt-3"></Col>
+      </Row>
+      <Link to='/signup'>Don't have an account yet? <b>Signup now</b></Link>
     </>
   );
 };
