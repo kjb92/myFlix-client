@@ -79,6 +79,7 @@ export const MainView = () => {
       <Row>
         <Col>
           <NavigationBar
+            user={user}
             handleLogout={handleLogout}
             movies={movies}
             setFilteredMovies={setFilteredMovies}

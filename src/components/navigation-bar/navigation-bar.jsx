@@ -7,7 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 
-export const NavigationBar = ({ handleLogout, movies, setFilteredMovies  }) => {
+export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }) => {
   const [query, setQuery] = useState(""); // Add state for search term
 
   //Handle search change
@@ -46,29 +46,44 @@ export const NavigationBar = ({ handleLogout, movies, setFilteredMovies  }) => {
         <Navbar.Brand as={Link} to="/">myFlix</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <NavDropdown title="Profile" id="navbarScrollingDropdown">
-              <NavDropdown.Item as={Link} to="/profile">View Profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Form className="d-flex" onSubmit={handleSearchSubmit}>
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-              value={query} // Set the value of the search input to the state variable
-              onChange={handleSearchChange} // Add onChange event handler to update the search term state
-            />
-            <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
-          </Form>
+          <>
+            { user ? (
+            <>
+              <Nav
+                className="me-auto my-2 my-lg-0"
+                style={{ maxHeight: '100px' }}
+                navbarScroll
+              >
+                <Nav.Link as={Link} to="/">Home</Nav.Link>
+                <NavDropdown title="Profile" id="navbarScrollingDropdown">
+                  <NavDropdown.Item as={Link} to="/profile">View Profile</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
+              <Form className="d-flex" onSubmit={handleSearchSubmit}>
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                  value={query} // Set the value of the search input to the state variable
+                  onChange={handleSearchChange} // Add onChange event handler to update the search term state
+                />
+                <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
+              </Form>
+            </>
+            ) : (
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={{ maxHeight: '100px' }}
+              navbarScroll
+            >
+              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+              <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+            </Nav>
+            )}
+          </>
         </Navbar.Collapse>
       </Container>
       </Navbar>
