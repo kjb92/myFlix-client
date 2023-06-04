@@ -5,6 +5,9 @@ import { LoginView } from '../login-view/login-view';
 import { SignupView } from '../signup-view/signup-view';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { NavigationBar } from '../navigation-bar/navigation-bar';
+import { ProfileView } from '../profile-view/profile-view';
 
 
 export const MainView = () => {
@@ -12,8 +15,34 @@ export const MainView = () => {
   const storedToken = JSON.parse(localStorage.getItem("token"));
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [favoriteMovies, setFavoriteMovies] = useState([])
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  //Fill user with localStorage data if existing
+  if(!user && storedUser) {
+    setUser(storedUser);
+    setToken(storedToken);
+    setFavoriteMovies(storedUser.FavoriteMovies);
+  };
+  
+  //Function to update user
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+
+  //variables for favorite list and similar movies
+  if (user) {
+    var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+    window.location.reload();
+  };
 
   useEffect(() => {
     if (!token) {
@@ -22,6 +51,7 @@ export const MainView = () => {
 
     fetch('https://myflix-kjb92.herokuapp.com/movies', {
       headers: { 
+        "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
       }
     })
@@ -46,55 +76,124 @@ export const MainView = () => {
       });
   }, [token]);
 
+
   return (
-    <Row> 
-      {!user ? (
-        <Col md={5}>
-          <LoginView
-            onLoggedIn={(user, token) => {
-              setUser(user);
-              setToken(token);
-            }}
-          />
-          or
-          <SignupView />
-        </Col>
-      ) : selectedMovie ? (
-        <Col md={8}>
-          <MovieView
-            movie={selectedMovie}
-            onBackClick={() => setSelectedMovie(null)}
+    <BrowserRouter>
+      <Row>
+        <Col>
+          <NavigationBar
+            user={user}
+            handleLogout={handleLogout}
           />
         </Col>
-      ) : movies.length === 0 ? (
-        <div>The list is empty!</div>
-      ) : (
-        <>
-          <>
-            {movies.map((movie) => {
-              return (
-                <Col className="mb-5" key={movie._id} md={3}>
-                  <MovieCard
-                  movie={movie}
-                  onMovieClick={(newSelectedMovie) => {
-                    setSelectedMovie(newSelectedMovie);
-                  }}
-                  />
-                </Col>
-              );
-            })}
-          </>
-          <>
-            <button
-              onClick={() => {
-                setUser(null);
-                setToken(null);
-                localStorage.clear();
-              }}>Logout
-            </button>
-          </>
-        </>
-      )}
-    </Row>
+      </Row>
+      <Row>
+        <Col className="mt-5"></Col>
+      </Row>
+      <Row>
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <SignupView />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route 
+            path="/login"
+            element={
+              <>
+                {user ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Col md={5}>
+                    <LoginView
+                      onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                        setFavoriteMovies(user.favoriteMovies);
+                      }}
+                    />                  
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route 
+            path="/movies/:movieId"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <Col>
+                    <MovieView
+                      movies={movies}
+                      user={user}
+                      token={token}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route 
+            path="/profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  <Col>
+                    <ProfileView 
+                      user={user}
+                      token={token}
+                      movies={movies}
+                    />
+                  </Col>
+                )}
+              </>
+            }
+          />
+          <Route 
+            path="/"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                  <>
+                    <>
+                      {movies.map((movie) => {
+                        return (
+                          <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
+                            <MovieCard 
+                              movie={movie} 
+                              user={user} 
+                              token={token} 
+                            />
+                          </Col>
+                        );
+                      })}
+                    </>
+                  </>
+                )}
+              </>
+            }
+          />
+        </Routes>
+      </Row>
+    </BrowserRouter>
   );
 };
