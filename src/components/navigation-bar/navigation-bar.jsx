@@ -64,7 +64,7 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
               <Form className="d-flex" onSubmit={handleSearchSubmit}>
                 <Form.Control
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search by title..."
                   className="me-2"
                   aria-label="Search"
                   value={query} // Set the value of the search input to the state variable
