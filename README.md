@@ -18,7 +18,7 @@ response from the server-side via a number of different interface views.
 # Getting started
 
 ## Live Test-Version
-For a live test version of the API, simply go to `https://netlify.app`
+For a live test version of the API, simply go to `myflix-kjb92.netlify.app`
 
 ## Clone the repo
 Follow the instructions below to get a copy of the project up and running on your local machine for development and testing purposes:
