@@ -1,6 +1,9 @@
 # myFlix Client
 
-This responsive Single Page Application is for movie lovers that want to be able to access information about movies and once signed up, manage their favorite movies. It's the client-side to the [RESTful Movie API](https://github.com/kjb92/myFlix) built with React and React-Bootstrap.
+A single-page, responsive app with routing, rich interactions, several interface views,
+and a polished user experience. The client-side developed in this repo supports
+the existing [server-side](https://github.com/kjb92/myFlix) by facilitating user requests and rendering the
+response from the server-side via a number of different interface views.
 
 ![Screenshot of the Movie Client](src/img/screenshot-myFlix-client.png)
 
