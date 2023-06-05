@@ -12006,6 +12006,20 @@ textarea.form-control-lg {
   }
 }
 
+.button-wrapper {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffffe6;
+  border-radius: 5px;
+  justify-content: center;
+  display: flex;
+}
 
+.save-button {
+  color: red;
+  cursor: pointer;
+  margin-top: 2px;
+  font-size: 23px;
+}
 
 /*# sourceMappingURL=index.ce1d6491.css.map */

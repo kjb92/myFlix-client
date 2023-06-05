@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 
 export const UserInfo = ({ user, token }) => {
   const [username, setUsername] = useState(`${user.username}`);
-  const [password, setPassword] = useState(`${user.password}`);
+  const [password, setPassword] = useState(``);
   const [email, setEmail] = useState(`${user.email}`);
   const [birthday, setBirthday] = useState(`${user.birthday.split("T")[0]}`);
 

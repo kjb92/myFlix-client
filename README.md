@@ -1,129 +1,84 @@
-# myFlix-client
-myFlix React App
-<br>
-Added Parcel as build tool which points to src/index.html
-<br>
-To initiate the build process, use the terminal command: `parcel src/index.html`
+# myFlix Client
 
-## API Documentation
-<table>
-  <thead>
-    <tr>
-      <th>Business Logic</th>
-      <th>URL</th>
-      <th>HTTP Method</th>
-      <th>Request Body Data Format</th>
-      <th>Response Body Data Format</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Return a list of ALL movies to the user</td>
-      <td>/movies</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about all the movies</td>
-    </tr>
-    <tr>
-      <td>Return a list of ALL users</td>
-      <td>/users</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about all the registered users</td>
-    </tr>
-    <tr>
-      <td>Return data (image URL, title, description, director, genre) about a movie to the user</td>
-      <td>/movies/:Title</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about a specific movie containing a description, genre, director, image url, and featured or not</td>
-    </tr>
-    <tr>
-      <td>Return all movies related to a specific genre by genre name (e.g. Drama)</td>
-      <td>/movies/genre/:GenreName</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about all movies related to a specific genre</td>
-    </tr>
-    <tr>
-      <td>Return all movies related to a specific director by director name (e.g. QUentin Tarantino)</td>
-      <td>/movies/director/:DirectorName</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about all movies related to a specific director</td>
-    </tr>
-    <tr>
-      <td>Return data (Username, Email, Birthday) about a single user</td>
-      <td>/users/:Username</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about a specific user containing a username, email and birthday</td>
-    </tr>
-    <tr>
-      <td>Return data about a genre (description) by name/title (e.g. Action)</td>
-      <td>/movies/genre/:GenreName/details</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about genre</td>
-    </tr>
-    <tr>
-      <td>Return data about a director (bio, birth year, death year) by name</td>
-      <td>/movies/director/:DirectorName/details</td>
-      <td>GET</td>
-      <td>None</td>
-      <td>A JSON object holding data about the director</td>
-    </tr>
-    <tr>
-      <td>Allow new users to register</td>
-      <td>/users</td>
-      <td>POST</td>
-      <td>                
-          {
-            "Username" : "Mary",
-            "Password" : "Password12345",
-            "Email" : "mary@email.com",
-            "Birthday" : "2000-12-02"
-          }
-        </td>
-      <td>A JSON object holding data about the user to add</td>
-    </tr>
-    <tr>
-      <td>Allow users to update their user info (username, password, email, date of birth)</td>
-      <td>/users/:Username</td>
-      <td>PUT</td>
-      <td>
-          {
-            "Username" : "Mary",
-            "Password" : "Password12345",
-            "Email" : "mary@email.com",
-            "Birthday" : "2000-12-02"
-          }
-      </td>
-      <td>A JSON object holding data about the user</td>
-    </tr>
-    <tr>
-      <td>Allow users to add a movie to their list of favorites</td>
-      <td>/users/:Username/movies/:MovieID</td>
-      <td>POST</td>
-      <td>None</td>
-      <td>An alert message saying movie title has been added to FavoriteMovies</td>
-    </tr>
-    <tr>
-      <td>Allow users to remove a movie from their list of favorites</td>
-      <td>/users/:Username/movies/:MovieID</td>
-      <td>DELETE</td>
-      <td>None</td>
-      <td>An alert message saying movie has been removed</td>
-    </tr>
-    <tr>
-      <td>Allow existing users to deregister</td>
-      <td>/users/:Username</td>
-      <td>DELETE</td>
-      <td>None</td>
-      <td>A text message saying user has been deleted</td>
-    </tr>
-  </tbody>
-</table>
+A single-page, responsive app with routing, rich interactions, several interface views,
+and a polished user experience. The client-side developed in this repo supports
+the existing [server-side](https://github.com/kjb92/myFlix) by facilitating user requests and rendering the
+response from the server-side via a number of different interface views.
 
-## Project Dependencies
-React
+![Screenshot of the Movie Client](src/img/screenshot-myFlix-client.png)
+
+# Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Technical Requirements](#technical-requirements)
+3. [Features](#features)
+4. [Built With](#built-with)
+
+
+# Getting started
+
+## Live Test-Version
+For a live test version of the API, simply go to `https://netlify.app`
+
+## Clone the repo
+Follow the instructions below to get a copy of the project up and running on your local machine for development and testing purposes:
+
+1. Open your terminal and navigate to the directory where you want to clone the repository.
+2. Clone the repository:
+```bash
+git clone https://github.com/kjb92/myFlix-client.git
+```
+
+2. Navigate to the root directory of the project.
+3. Run `npm install` to install all dependencies.
+4. Run parcel to build the project with `npm run start`
+5. Open a web browser and navigate to `http://localhost:1234` to access the front-end
+
+
+# Technical requirements
+- MERN stack must be used (React library)
+- the myFlix App
+  - must use Parcel as its build tool
+  - must be a single page application (SPA)
+  - must be written in ES2015+
+  - must contain function components
+  - must use state routing to navigate
+  - must use React Bootstrap (components, styling, responsivenss (Grid))
+  - must include search feature (filter movie list)
+  - must be hosted online on Netlify
+  - may use React Redux for state management of at least one feature (i.e.,
+filtering movies)
+
+# Features
+In this Movie App
+- you are able to sign in (register as a new user), for this you need to pass
+  - your username
+  - a password
+  - your email
+  - your birth date
+- once you are logged in with your username and password, you are able
+  - to access information about movies
+  - to create your own list of favorite movies in adding single movies to a (at start empty) list
+  - to delete movies off of your list of favorite movies
+  - to update your user information
+  - to log out
+  - to filter for a movie by title on home page (MainView)
+
+
+# Built with
+- HTML
+- SCSS
+- JavaScript, JSX
+
+## Dependencies
+- `bootstrap` to customize bootstrap sass files
+- `prop-types` to transmit data between components and validate the data type based on the app's configuration
+- `react` to use the react library
+- `react-bootstrap` to use the react version of bootstrap modules
+- `react-dom` to use as entry point to the DOM, intended to be paired with `react`
+
+## Dev Dependencies
+- `Parcel` parcel.js as the build tool
+  - `@parcel/transformer-sass` automatically comes with parcel to support Sass files
+  - `Process` automatically comes with parcel to improve functionality of built-in process module
+

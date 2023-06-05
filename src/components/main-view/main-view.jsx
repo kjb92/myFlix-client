@@ -18,6 +18,8 @@ export const MainView = () => {
   const [favoriteMovies, setFavoriteMovies] = useState([])
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [filteredMovies, setFilteredMovies] = useState([]); 
+
 
   //Fill user with localStorage data if existing
   if(!user && storedUser) {
@@ -25,18 +27,13 @@ export const MainView = () => {
     setToken(storedToken);
     setFavoriteMovies(storedUser.FavoriteMovies);
   };
-  
-  //Function to update user
-  const updateUser = (updatedUser) => {
-    setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(user));
-  };
 
   //variables for favorite list and similar movies
   if (user) {
     var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
   };
 
+  //Handle logout
   const handleLogout = () => {
     setUser(null);
     setToken(null);
@@ -84,6 +81,8 @@ export const MainView = () => {
           <NavigationBar
             user={user}
             handleLogout={handleLogout}
+            movies={movies}
+            setFilteredMovies={setFilteredMovies}
           />
         </Col>
       </Row>
@@ -170,12 +169,11 @@ export const MainView = () => {
               <>
                 {!user ? (
                   <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
-                ) : (
+                ) : filteredMovies ? (
                   <>
                     <>
-                      {movies.map((movie) => {
+                      <Navigate to="/" replace />
+                      {filteredMovies.map((movie) => {
                         return (
                           <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
                             <MovieCard 
@@ -187,7 +185,25 @@ export const MainView = () => {
                         );
                       })}
                     </>
+                  </>                
+                ) : movies.length === 0 ? (
+                  <Col>The list is empty!</Col>
+                ) : (
+                <>
+                  <>
+                    {movies.map((movie) => {
+                      return (
+                        <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
+                          <MovieCard 
+                            movie={movie} 
+                            user={user} 
+                            token={token} 
+                          />
+                        </Col>
+                      );
+                    })}
                   </>
+                </>
                 )}
               </>
             }
