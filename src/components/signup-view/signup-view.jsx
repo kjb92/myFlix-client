@@ -97,3 +97,9 @@ export const SignupView = () => {
     </>
   );
 };
+
+//  improvements
+
+// Line 40: Remove the unused variable e to avoid the warning.
+// Lines 23-35: Add error handling to the fetch request to provide more specific error messages to the user.
+// Lines 41-51: Add client-side validation to the form fields to ensure that the email is in a valid format and that the password meets specific requirements.

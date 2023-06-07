@@ -125,3 +125,6 @@ MovieView.propTypes = {
   }).isRequired,
   token: PropTypes.string.isRequired,
 };
+
+// One improvement that could be made is to remove the unused Link import on line 5 to avoid the warning message. 
+// Another suggestion would be to add some error handling in case the movie variable is undefined, to prevent the code from breaking.

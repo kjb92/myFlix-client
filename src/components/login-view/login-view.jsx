@@ -84,3 +84,9 @@ export const LoginView = ({ onLoggedIn }) => {
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired
 };
+
+// improvements:
+
+// 1. Add form validation to ensure that the user enters a valid username and password.
+// 2. Add error handling to the fetch request to handle network errors and server errors.
+// 3. Consider adding a loading spinner or progress bar to indicate to the user that the login request is being processed.

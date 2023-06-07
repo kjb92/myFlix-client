@@ -213,3 +213,10 @@ export const MainView = () => {
     </BrowserRouter>
   );
 };
+
+// Improvements:
+
+// Based on the warnings and errors in the active document, 
+// it seems that the variables selectedMovie, setSelectedMovie, 
+// and favoriteMovieList are declared but never used. 
+// You can remove them to avoid confusion and improve the code's readability.

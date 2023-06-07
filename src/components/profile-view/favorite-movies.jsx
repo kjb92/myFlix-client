@@ -59,3 +59,12 @@ FavoriteMovies.propTypes = {
     }).isRequired,
   token: PropTypes.string.isRequired
 };
+
+
+// Improvements:
+
+// 1. Use destructuring to extract the user, token, and movies props directly in the function signature.
+// 2. Use the key prop when rendering the MovieCard component to help React identify each item in the list.
+// 3. Use the Container component from react-bootstrap to wrap the Row components.
+// 4. Use the Col component from react-bootstrap to wrap the h3 element.
+// 5. Use the isAuthenticated prop from the user object to determine if the user is logged in instead of checking the length of the favoriteMovies array.

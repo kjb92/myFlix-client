@@ -93,3 +93,7 @@ SaveButton.propTypes = {
     }).isRequired,
   token: PropTypes.string.isRequired
 };
+
+
+// improvements
+// 1. Remove the unused variables Row, Col, and location. This will help to clean up the code and make it more readable.

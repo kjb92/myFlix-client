@@ -45,3 +45,6 @@ MovieCard.propTypes = {
   }).isRequired,
   token: PropTypes.string.isRequired,
 };
+
+
+// The code looks good, but the warning message suggests that the Button component is declared but not used. You can remove the Button import statement if it's not being used in the code.
