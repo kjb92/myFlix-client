@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import { SaveButton } from "../save-button/save-button";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const MovieCard = ({ movie, user, token }) => {
+export const MovieCard = ({ movie, user, token, updateUser }) => {
 
   const linkToMovie = `/movies/${encodeURIComponent(movie._id)}`;
 
@@ -14,7 +14,7 @@ export const MovieCard = ({ movie, user, token }) => {
           <Card.Img variant="top" src={movie.image} />
         </Link>
         <div style={{ position: 'absolute', top: '0', right: '0' }}>
-          <SaveButton movie={movie} user={user} token={token} />
+          <SaveButton movie={movie} user={user} token={token} updateUser={updateUser} />
         </div>
       </div>
       <Card.Body>
@@ -44,4 +44,5 @@ MovieCard.propTypes = {
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
   token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };

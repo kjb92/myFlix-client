@@ -2,20 +2,25 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Stack from "react-bootstrap/Stack";
 import { MovieCard } from "../movie-card/movie-card";
 import { SaveButton } from "../save-button/save-button";
 
-export const MovieView = ({ movies, user, token }) => {
+export const MovieView = ({ movies, user, token, updateUser }) => {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };
   const movie = movies.find((m) => m._id === movieId);
+
+  if (!movie) {
+    // Movie not found, display an error message
+    return <div>No movie with the ID {movieId} found</div>;
+  }
+
   const genres = movie.genre.map((genre) => genre.name);
   const similarMovies = movies.filter(
     (m) =>
@@ -51,7 +56,7 @@ export const MovieView = ({ movies, user, token }) => {
           </Row>
         </Col>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <SaveButton movie={movie} user={user} token={token} />
+          <SaveButton movie={movie} user={user} token={token} updateUser={updateUser} />
           <Button variant="secondary" onClick={goBack}>
             Back
           </Button>
@@ -84,7 +89,7 @@ export const MovieView = ({ movies, user, token }) => {
               xxl={3}
               key={similarMovie._id}
             >
-              <MovieCard movie={similarMovie} user={user} token={token} />
+              <MovieCard movie={similarMovie} user={user} token={token} updateUser={updateUser} />
             </Col>
           ))}
         </Row>
@@ -124,4 +129,6 @@ MovieView.propTypes = {
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
   token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
+

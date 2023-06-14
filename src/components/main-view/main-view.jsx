@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { ProfileView } from '../profile-view/profile-view';
+import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 
 export const MainView = () => {
@@ -15,22 +17,20 @@ export const MainView = () => {
   const storedToken = JSON.parse(localStorage.getItem("token"));
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [favoriteMovies, setFavoriteMovies] = useState([])
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [filteredMovies, setFilteredMovies] = useState([]); 
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  
 
-
-  //Fill user with localStorage data if existing
-  if(!user && storedUser) {
-    setUser(storedUser);
-    setToken(storedToken);
-    setFavoriteMovies(storedUser.FavoriteMovies);
+  //Update user function
+  const updateUser = (user) => {
+    setUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
-  //variables for favorite list and similar movies
-  if (user) {
-    var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
+  //Handle login
+  const handleLogin = (user, token) => {
+    setUser(user);
+    setToken(token);
   };
 
   //Handle logout
@@ -38,15 +38,16 @@ export const MainView = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
-    window.location.reload();
+    toast.success("Logout successful");
   };
 
+  //Get all movies
   useEffect(() => {
     if (!token) {
       return;
     }
 
-    fetch('https://myflix-kjb92.herokuapp.com/movies', {
+    fetch(`${baseURL}/movies`, {
       headers: { 
         "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
@@ -73,7 +74,7 @@ export const MainView = () => {
       });
   }, [token]);
 
-
+  //Render views
   return (
     <BrowserRouter>
       <Row>
@@ -99,7 +100,8 @@ export const MainView = () => {
                   <Navigate to="/" />
                 ) : (
                   <Col md={5}>
-                    <SignupView />
+                    <SignupView
+                    />
                   </Col>
                 )}
               </>
@@ -114,11 +116,7 @@ export const MainView = () => {
                 ) : (
                   <Col md={5}>
                     <LoginView
-                      onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
-                        setFavoriteMovies(user.favoriteMovies);
-                      }}
+                      handleLogin={handleLogin}
                     />                  
                   </Col>
                 )}
@@ -139,6 +137,7 @@ export const MainView = () => {
                       movies={movies}
                       user={user}
                       token={token}
+                      updateUser={updateUser} 
                     />
                   </Col>
                 )}
@@ -157,6 +156,7 @@ export const MainView = () => {
                       user={user}
                       token={token}
                       movies={movies}
+                      updateUser={updateUser} 
                     />
                   </Col>
                 )}
@@ -179,7 +179,8 @@ export const MainView = () => {
                             <MovieCard 
                               movie={movie} 
                               user={user} 
-                              token={token} 
+                              token={token}
+                              updateUser={updateUser} 
                             />
                           </Col>
                         );
@@ -197,7 +198,8 @@ export const MainView = () => {
                           <MovieCard 
                             movie={movie} 
                             user={user} 
-                            token={token} 
+                            token={token}
+                            updateUser={updateUser} 
                           />
                         </Col>
                       );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -6,22 +6,27 @@ import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from "react-router-dom";
+import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (event) => {
     // this prevents the default behaviour of the form which is to reload the entire page
     event.preventDefault();
+    setIsLoading(true);
 
     const data = {
       username: username, 
       password: password
     };
 
-    fetch(`https://myflix-kjb92.herokuapp.com/login?username=${username}&password=${password}`, {
+    fetch(`${baseURL}/login?username=${username}&password=${password}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,15 +38,26 @@ export const LoginView = ({ onLoggedIn }) => {
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", JSON.stringify(data.token));
-        onLoggedIn(data.user, data.token);
+        handleLogin(data.user, data.token);
+        toast.success("Login successful!");
       } else {
-        alert("No such user"); 
+        toast.error("No such user"); 
       }
     })
-    .catch((e) => {
-      alert("Something went wrong");
-    });
-  };
+    .catch((error) => {
+      console.log("Something went wrong: ", error);
+      ToastBody.error("Something went wrong");
+    })
+    .finally(() => {
+      setIsLoading(false);
+  });
+};
+
+  //Form validation
+  useEffect(() => {
+    // Check if both username and password have a minimum length
+    setIsFormValid(username.length >= 5 && password.length >= 3);
+  }, [username, password]);
 
   return (
     <>
@@ -67,8 +83,8 @@ export const LoginView = ({ onLoggedIn }) => {
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <Button variant="primary" type="submit">
-            Login
+          <Button variant="primary" type="submit" disabled={!isFormValid || isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
         </Stack>
       </Form>
@@ -82,5 +98,5 @@ export const LoginView = ({ onLoggedIn }) => {
 
 // Here is where we define all the props constraints
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired
+  handleLogin: PropTypes.func.isRequired
 };
