@@ -15,6 +15,7 @@ const SearchBar = ({ handleSearch, query, setQuery, loading }) => {
   return (
     <Form className="d-flex" onSubmit={handleSearchSubmit}>
       <Form.Control
+        id="search-bar"
         type="search"
         placeholder="Search by title..."
         className="me-2"
