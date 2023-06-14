@@ -37,7 +37,6 @@ export const MainView = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
-    window.location.reload();
   };
 
   //Get all movies

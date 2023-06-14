@@ -8,7 +8,7 @@ import Stack from "react-bootstrap/Stack";
 import { MovieCard } from "../movie-card/movie-card";
 import { SaveButton } from "../save-button/save-button";
 
-export const MovieView = ({ movies, user, token }) => {
+export const MovieView = ({ movies, user, token, updateUser }) => {
   const { movieId } = useParams();
   const navigate = useNavigate();
   const goBack = () => {
@@ -56,7 +56,7 @@ export const MovieView = ({ movies, user, token }) => {
           </Row>
         </Col>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <SaveButton movie={movie} user={user} token={token} />
+          <SaveButton movie={movie} user={user} token={token} updateUser={updateUser} />
           <Button variant="secondary" onClick={goBack}>
             Back
           </Button>
@@ -89,7 +89,7 @@ export const MovieView = ({ movies, user, token }) => {
               xxl={3}
               key={similarMovie._id}
             >
-              <MovieCard movie={similarMovie} user={user} token={token} />
+              <MovieCard movie={similarMovie} user={user} token={token} updateUser={updateUser} />
             </Col>
           ))}
         </Row>
@@ -129,5 +129,6 @@ MovieView.propTypes = {
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
   token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
 

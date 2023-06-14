@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { baseURL } from '../../../lib/config';
 
-export const UserInfo = ({ user, token }) => {
+export const UserInfo = ({ user, token, updateUser }) => {
   const [username, setUsername] = useState(`${user.username}`);
   const [password, setPassword] = useState(``);
   const [email, setEmail] = useState(`${user.email}`);
   const [birthday, setBirthday] = useState(`${user.birthday.split("T")[0]}`);
 
+  //Update user profile
   const updateUserProfile = (e) => {
     e.preventDefault();
 
@@ -21,7 +22,7 @@ export const UserInfo = ({ user, token }) => {
       birthday: birthday
     };
   
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
+    fetch(`${baseURL}/users/${user.username}`, {
       method: 'PUT',
       headers: {
         "Content-Type" : "application/JSON",
@@ -35,17 +36,18 @@ export const UserInfo = ({ user, token }) => {
         console.log('User profile updated successfully:', data);
         alert('User profile updated successfully!');
         // Update the state variables with the updated data
-        localStorage.setItem("user", JSON.stringify(data));
+        updateUser(data);
       })
       .catch(error => {
         console.error('Error updating user profile:', error);
       });
   };
     
+  //Handel deregister
   const handleDeregister = (e) => {
     e.preventDefault();
   
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
+    fetch(`${baseURL}/users/${user.username}`, {
       method: 'DELETE',
       headers: {
         "Content-Type" : "application/JSON",
@@ -54,9 +56,10 @@ export const UserInfo = ({ user, token }) => {
     })
       .then(data => {
         // Handle the response or perform any necessary actions
+        updateUser(data);
+        localStorage.clear();
         console.log('User was deleted successfully:', data);
         alert('User was deleted successfully!');
-        localStorage.clear();
         window.location.reload();
       })
       .catch(error => {
@@ -64,6 +67,7 @@ export const UserInfo = ({ user, token }) => {
       });
   };
 
+  //Render view
   return (
     <Col>
       <Form onSubmit={updateUserProfile}>
@@ -127,13 +131,6 @@ UserInfo.propTypes = {
       favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
       .isRequired,
       }).isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
-
-// improvements:
-
-// 1. The Row component is imported but not used. You can remove the import statement to avoid the warning message.
-// 2. The useEffect hook is not used in the component. You can remove the import statement to avoid the warning message.
-// 3. The localStorage.setItem("user", JSON.stringify(data)); statement is used to update the user data in the local storage. It is recommended to use a state management library like Redux to manage the state of the application.
-// 4. The localStorage.clear(); statement is used to clear the local storage when the user is deleted. It is recommended to use a state management library like Redux to manage the state of the application.
-// 5. The window.location.reload(); statement is used to reload the page when the user is deleted. It is recommended to use a state management library like Redux to manage the state of the application. Or useEffect or simply navigate to the login page.
