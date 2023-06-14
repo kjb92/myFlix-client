@@ -5,22 +5,22 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import SearchBar from './search-bar';
+import _ from 'lodash';
 
 
 export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }) => {
   const [query, setQuery] = useState(""); // Add state for search term
 
-  const handleSearch = (query) => {
+  const handleSearch = _.debounce((query) => {
     const filteredMovies = movies.filter((movie) => {
       const title = movie.title.toLowerCase();
       const searchTerm = query.toLowerCase();
       return title.includes(searchTerm);
     });
-  
+
     setFilteredMovies(filteredMovies);
-  };
+  }, 300);
 
 
   //Clear search when query is empty
