@@ -1,20 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from "react-router-dom";
+import { baseURL } from '../../../lib/config';
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [birthday, setBirthday] = useState("");
-  
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //Validation rules
+  const isEmailValid = email.length === 0 || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isPasswordValid = password.length === 0 || password.length >= 6;
+
+  //Handle signup submit
   const handleSubmit = (event) => {
     // this prevents the default behaviour of the form which is to reload the entire page
     event.preventDefault();
+    setIsLoading(true);
 
     const data = {
       username: username,
@@ -23,7 +32,7 @@ export const SignupView = () => {
       birthday: birthday
     };
 
-    fetch('https://myflix-kjb92.herokuapp.com/users', {
+    fetch(`${baseURL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,15 +42,32 @@ export const SignupView = () => {
     .then((response) => {
       if (response.ok) {
         alert("Signup successful");
-        window.location.reload(); 
+        window.location.reload();
+      } else if (response.status === 409) {
+        alert("Username or email already exists");
       } else {
-        alert("Signup failed"); 
+        alert("Signup failed");
       }
     })
-    .catch((e) => {
-      alert("Something went wrong");
-    });
-  };
+    .catch((error) => {
+      console.error("Signup error: ", error);
+      alert("Something went wrong: ", error);
+    })
+    .finally(() => {
+      setIsLoading(false);
+  });
+};
+
+
+  //Form validation
+  useEffect(() => {
+    setIsFormValid(
+      username.length >= 5 &&
+      isEmailValid &&
+      isPasswordValid &&
+      birthday.length > 0
+    );
+  }, [username, email, password, birthday, isEmailValid, isPasswordValid]);
 
   return (
     <>
@@ -64,7 +90,11 @@ export const SignupView = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            isInvalid={!isEmailValid}
           />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid email address.
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="formPassword">
           <Form.Label>Password:</Form.Label>
@@ -73,7 +103,11 @@ export const SignupView = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            isInvalid={!isPasswordValid}
           />
+          <Form.Control.Feedback type="invalid">
+            Password must be at least 6 characters long.
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="formBirthday">
           <Form.Label>Birthday:</Form.Label>
@@ -85,9 +119,9 @@ export const SignupView = () => {
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <Button variant="primary" type="submit">
-            Signup
-          </Button>
+        <Button variant="primary" type="submit" disabled={!isFormValid || isLoading}>
+          {isLoading ? "Signing up..." : "Signup"}
+        </Button>
         </Stack>
       </Form>
       <Row>
@@ -97,9 +131,3 @@ export const SignupView = () => {
     </>
   );
 };
-
-//  improvements
-
-// Line 40: Remove the unused variable e to avoid the warning.
-// Lines 23-35: Add error handling to the fetch request to provide more specific error messages to the user.
-// Lines 41-51: Add client-side validation to the form fields to ensure that the email is in a valid format and that the password meets specific requirements.
