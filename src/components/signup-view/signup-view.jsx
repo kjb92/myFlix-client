@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from "react-router-dom";
 import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -41,17 +42,16 @@ export const SignupView = () => {
     })
     .then((response) => {
       if (response.ok) {
-        alert("Signup successful");
-        window.location.reload();
+        toast.success("Signup successful!");
       } else if (response.status === 409) {
-        alert("Username or email already exists");
+        toast.error("Username or email already exists");
       } else {
-        alert("Signup failed");
+        toast.error("Signup failed");
       }
     })
     .catch((error) => {
       console.error("Signup error: ", error);
-      alert("Something went wrong: ", error);
+      toast.error("Something went wrong");
     })
     .finally(() => {
       setIsLoading(false);

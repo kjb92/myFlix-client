@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 export const UserInfo = ({ user, token, updateUser }) => {
   const [username, setUsername] = useState(`${user.username}`);
@@ -32,14 +33,15 @@ export const UserInfo = ({ user, token, updateUser }) => {
     })
       .then(response => response.json())
       .then(data => {
-        // Handle the response or perform any necessary actions
-        console.log('User profile updated successfully:', data);
-        alert('User profile updated successfully!');
         // Update the state variables with the updated data
         updateUser(data);
+        // Handle the response or perform any necessary actions
+        console.log('User profile updated successfully:', data);
+        toast.success("User profile updated successfully!");
       })
       .catch(error => {
         console.error('Error updating user profile:', error);
+        toast.error("Error updating user profile");
       });
   };
     
@@ -59,11 +61,12 @@ export const UserInfo = ({ user, token, updateUser }) => {
         updateUser(data);
         localStorage.clear();
         console.log('User was deleted successfully:', data);
-        alert('User was deleted successfully!');
+        toast.success("User was deleted successfully!");
         window.location.reload();
       })
       .catch(error => {
         console.error('Error deleting user', error);
+        toast.error("Error deleting user");
       });
   };
 

@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from "react-router-dom";
 import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 
 export const LoginView = ({ handleLogin }) => {
@@ -14,7 +15,7 @@ export const LoginView = ({ handleLogin }) => {
   const [password, setPassword] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const handleSubmit = (event) => {
     // this prevents the default behaviour of the form which is to reload the entire page
     event.preventDefault();
@@ -38,12 +39,14 @@ export const LoginView = ({ handleLogin }) => {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", JSON.stringify(data.token));
         handleLogin(data.user, data.token);
+        toast.success("Login successful!");
       } else {
-        alert("No such user"); 
+        toast.error("No such user"); 
       }
     })
     .catch((error) => {
-      alert("Something went wrong", error);
+      console.log("Something went wrong: ", error);
+      ToastBody.error("Something went wrong");
     })
     .finally(() => {
       setIsLoading(false);
@@ -80,9 +83,9 @@ export const LoginView = ({ handleLogin }) => {
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
-        <Button variant="primary" type="submit" disabled={!isFormValid || isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </Button>
+          <Button variant="primary" type="submit" disabled={!isFormValid || isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
         </Stack>
       </Form>
       <Row>
@@ -97,8 +100,3 @@ export const LoginView = ({ handleLogin }) => {
 LoginView.propTypes = {
   handleLogin: PropTypes.func.isRequired
 };
-
-
-
-// 2. Add error handling to the fetch request to handle network errors and server errors.
-// 3. Consider adding a loading spinner or progress bar to indicate to the user that the login request is being processed.

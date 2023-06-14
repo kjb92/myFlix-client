@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { baseURL } from '../../../lib/config';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
-
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./save-button.scss";
 

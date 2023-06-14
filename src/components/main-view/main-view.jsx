@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { ProfileView } from '../profile-view/profile-view';
 import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
 
 export const MainView = () => {
@@ -17,8 +18,8 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([])
-  const [filteredMovies, setFilteredMovies] = useState([]); 
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  
 
   //Update user function
   const updateUser = (user) => {
@@ -37,6 +38,7 @@ export const MainView = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
+    toast.success("Logout successful");
   };
 
   //Get all movies
@@ -98,7 +100,8 @@ export const MainView = () => {
                   <Navigate to="/" />
                 ) : (
                   <Col md={5}>
-                    <SignupView />
+                    <SignupView
+                    />
                   </Col>
                 )}
               </>
