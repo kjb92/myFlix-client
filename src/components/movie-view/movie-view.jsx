@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Stack from "react-bootstrap/Stack";
@@ -16,6 +15,12 @@ export const MovieView = ({ movies, user, token }) => {
     navigate(-1);
   };
   const movie = movies.find((m) => m._id === movieId);
+
+  if (!movie) {
+    // Movie not found, display an error message
+    return <div>No movie with the ID {movieId} found</div>;
+  }
+
   const genres = movie.genre.map((genre) => genre.name);
   const similarMovies = movies.filter(
     (m) =>
@@ -126,5 +131,4 @@ MovieView.propTypes = {
   token: PropTypes.string.isRequired,
 };
 
-// One improvement that could be made is to remove the unused Link import on line 5 to avoid the warning message. 
 // Another suggestion would be to add some error handling in case the movie variable is undefined, to prevent the code from breaking.
