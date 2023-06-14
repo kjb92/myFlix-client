@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { SaveButton } from "../save-button/save-button";
-import { Button, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, user, token }) => {
@@ -45,6 +45,3 @@ MovieCard.propTypes = {
   }).isRequired,
   token: PropTypes.string.isRequired,
 };
-
-
-// The code looks good, but the warning message suggests that the Button component is declared but not used. You can remove the Button import statement if it's not being used in the code.
