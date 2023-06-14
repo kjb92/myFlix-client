@@ -26,6 +26,12 @@ export const MainView = () => {
     localStorage.setItem("user", JSON.stringify(user));
   };
 
+  //Handle login
+  const handleLogin = (user, token) => {
+    setUser(user);
+    setToken(token);
+  };
+
   //Handle logout
   const handleLogout = () => {
     setUser(null);
@@ -108,11 +114,7 @@ export const MainView = () => {
                 ) : (
                   <Col md={5}>
                     <LoginView
-                      onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
-                        setFavoriteMovies(user.favoriteMovies);
-                      }}
+                      handleLogin={handleLogin}
                     />                  
                   </Col>
                 )}
@@ -133,6 +135,7 @@ export const MainView = () => {
                       movies={movies}
                       user={user}
                       token={token}
+                      updateUser={updateUser} 
                     />
                   </Col>
                 )}
@@ -151,6 +154,7 @@ export const MainView = () => {
                       user={user}
                       token={token}
                       movies={movies}
+                      updateUser={updateUser} 
                     />
                   </Col>
                 )}

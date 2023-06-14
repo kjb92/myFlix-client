@@ -6,9 +6,10 @@ import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Link } from "react-router-dom";
+import { baseURL } from '../../../lib/config';
 
 
-export const LoginView = ({ onLoggedIn }) => {
+export const LoginView = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
@@ -21,7 +22,7 @@ export const LoginView = ({ onLoggedIn }) => {
       password: password
     };
 
-    fetch(`https://myflix-kjb92.herokuapp.com/login?username=${username}&password=${password}`, {
+    fetch(`${baseURL}/login?username=${username}&password=${password}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,7 +34,7 @@ export const LoginView = ({ onLoggedIn }) => {
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", JSON.stringify(data.token));
-        onLoggedIn(data.user, data.token);
+        handleLogin(data.user, data.token);
       } else {
         alert("No such user"); 
       }
@@ -82,7 +83,7 @@ export const LoginView = ({ onLoggedIn }) => {
 
 // Here is where we define all the props constraints
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired
+  handleLogin: PropTypes.func.isRequired
 };
 
 // improvements:
