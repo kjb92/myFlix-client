@@ -2,6 +2,10 @@ import { createRoot } from "react-dom/client";
 import { MainView } from "./components/main-view/main-view";
 import Container from "react-bootstrap/Container";
 
+//react-toastify 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./index.scss";
 
@@ -10,6 +14,7 @@ const MyFlixApplication = () => {
   return (
     <Container>
       <MainView />
+      <ToastContainer />
     </Container>
   );
 };

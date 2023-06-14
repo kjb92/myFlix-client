@@ -1,36 +1,10 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'react-bootstrap';
 import { FavoriteMovies } from './favorite-movies';
 import { UserInfo } from './user-info';
-import { MovieCard } from '../movie-card/movie-card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-export const ProfileView = ({ user, token, movies }) => {
-  const [userProfile, setUserProfile] = useState(null);
-
-  //Fetch current user's profile information
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
-      method: 'GET',
-      headers: { 
-        "Content-Type" : "application/JSON",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserProfile(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching user profile:', error);
-      });
-  }, [token]);  
+export const ProfileView = ({ user, token, movies, updateUser }) => {
 
   return (
     <>
@@ -41,7 +15,7 @@ export const ProfileView = ({ user, token, movies }) => {
       </Row>
       <Row>
         <Col md={5}>
-          <UserInfo user={user} token={token} />
+          <UserInfo user={user} token={token} updateUser={updateUser} />
         </Col>
       </Row>
       <Row>
@@ -49,7 +23,7 @@ export const ProfileView = ({ user, token, movies }) => {
       </Row>
       <Row>
         <Col>
-          <FavoriteMovies user={user} token={token} movies={movies} />
+          <FavoriteMovies user={user} token={token} movies={movies} updateUser={updateUser} />
         </Col>
       </Row>
     </>
@@ -82,5 +56,6 @@ ProfileView.propTypes = {
       ).isRequired,
       featured: PropTypes.bool.isRequired,
     })
-  ).isRequired
+  ).isRequired,
+  updateUser: PropTypes.func.isRequired
 };

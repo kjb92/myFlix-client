@@ -1,23 +1,22 @@
 import PropTypes from 'prop-types';
 import { MovieCard } from '../movie-card/movie-card';
+import Container from "react-bootstrap/Container";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-export const FavoriteMovies = ({ user, token, movies }) => {
+export const FavoriteMovies = ({ user, token, movies, updateUser }) => {
   const favoriteMovieList = movies.filter((m) => user.favoriteMovies.includes(m._id));
 
   return (
-    <>
+    <Container>
       <Row>
-        <Col>
-          <h3>My Favorite Movies</h3>
-        </Col>
+        <Col><h3>My Favorite Movies</h3></Col>
       </Row>
       <Row>
         {user.favoriteMovies.length > 0 ? (
           favoriteMovieList.map((movie) => (
-            <Col className="mb-5" key={movie._id} xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
-              <MovieCard movie={movie} user={user} token={token}/>
+            <Col key={movie._id} className="mb-5" xs={12} sm={8} md={6} lg={4} xl={3} xxl={3}>
+              <MovieCard movie={movie} user={user} token={token} updateUser={updateUser}/>
             </Col>
           ))
         ) : (
@@ -26,7 +25,7 @@ export const FavoriteMovies = ({ user, token, movies }) => {
         </Col>
         )}
       </Row>
-    </>
+    </Container>
   );
 };
 
@@ -57,5 +56,6 @@ FavoriteMovies.propTypes = {
     birthday: PropTypes.string,
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
     }).isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };

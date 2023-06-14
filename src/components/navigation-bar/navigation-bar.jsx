@@ -5,28 +5,29 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import SearchBar from './search-bar';
+import _ from 'lodash';
+
 
 export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }) => {
   const [query, setQuery] = useState(""); // Add state for search term
+  const [loading, setLoading] = useState(false); // Add loading state
 
-  //Handle search change
-  const handleSearchChange = (event) => {
-    setQuery(event.target.value); // Update search term state
-  };
+  const handleSearch = _.debounce(async (query) => {
+    setLoading(true);
 
-  //Handle search submit
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-  
+    // Simulate API call or any asynchronous search operation
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const filteredMovies = movies.filter((movie) => {
       const title = movie.title.toLowerCase();
       const searchTerm = query.toLowerCase();
       return title.includes(searchTerm);
     });
-  
+
     setFilteredMovies(filteredMovies);
-  };
+    setLoading(false);
+  }, 300);
 
 
   //Clear search when query is empty
@@ -61,17 +62,7 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Form className="d-flex" onSubmit={handleSearchSubmit}>
-                <Form.Control
-                  type="search"
-                  placeholder="Search by title..."
-                  className="me-2"
-                  aria-label="Search"
-                  value={query} // Set the value of the search input to the state variable
-                  onChange={handleSearchChange} // Add onChange event handler to update the search term state
-                />
-                <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
-              </Form>
+              <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} loading={loading} />
             </>
             ) : (
             <Nav
@@ -93,9 +84,8 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
 
 // Here is where we define all the props constraints
 NavigationBar.propTypes = {
+  user: PropTypes.object, 
   handleLogout: PropTypes.func.isRequired,
+  movies: PropTypes.array, 
   setFilteredMovies: PropTypes.func.isRequired
 };
-
-
-

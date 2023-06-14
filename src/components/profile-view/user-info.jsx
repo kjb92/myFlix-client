@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import Stack from 'react-bootstrap/Stack';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { baseURL } from '../../../lib/config';
+import { toast } from 'react-toastify';
 
-export const UserInfo = ({ user, token }) => {
+export const UserInfo = ({ user, token, updateUser }) => {
   const [username, setUsername] = useState(`${user.username}`);
   const [password, setPassword] = useState(``);
   const [email, setEmail] = useState(`${user.email}`);
   const [birthday, setBirthday] = useState(`${user.birthday.split("T")[0]}`);
 
+  //Update user profile
   const updateUserProfile = (e) => {
     e.preventDefault();
 
@@ -21,7 +23,7 @@ export const UserInfo = ({ user, token }) => {
       birthday: birthday
     };
   
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
+    fetch(`${baseURL}/users/${user.username}`, {
       method: 'PUT',
       headers: {
         "Content-Type" : "application/JSON",
@@ -31,21 +33,23 @@ export const UserInfo = ({ user, token }) => {
     })
       .then(response => response.json())
       .then(data => {
+        // Update the state variables with the updated data
+        updateUser(data);
         // Handle the response or perform any necessary actions
         console.log('User profile updated successfully:', data);
-        alert('User profile updated successfully!');
-        // Update the state variables with the updated data
-        localStorage.setItem("user", JSON.stringify(data));
+        toast.success("User profile updated successfully!");
       })
       .catch(error => {
         console.error('Error updating user profile:', error);
+        toast.error("Error updating user profile");
       });
   };
     
+  //Handel deregister
   const handleDeregister = (e) => {
     e.preventDefault();
   
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}`, {
+    fetch(`${baseURL}/users/${user.username}`, {
       method: 'DELETE',
       headers: {
         "Content-Type" : "application/JSON",
@@ -54,16 +58,19 @@ export const UserInfo = ({ user, token }) => {
     })
       .then(data => {
         // Handle the response or perform any necessary actions
-        console.log('User was deleted successfully:', data);
-        alert('User was deleted successfully!');
+        updateUser(data);
         localStorage.clear();
+        console.log('User was deleted successfully:', data);
+        toast.success("User was deleted successfully!");
         window.location.reload();
       })
       .catch(error => {
         console.error('Error deleting user', error);
+        toast.error("Error deleting user");
       });
   };
 
+  //Render view
   return (
     <Col>
       <Form onSubmit={updateUserProfile}>
@@ -127,5 +134,6 @@ UserInfo.propTypes = {
       favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
       .isRequired,
       }).isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };
