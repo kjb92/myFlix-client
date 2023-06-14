@@ -131,4 +131,3 @@ MovieView.propTypes = {
   token: PropTypes.string.isRequired,
 };
 
-// Another suggestion would be to add some error handling in case the movie variable is undefined, to prevent the code from breaking.
