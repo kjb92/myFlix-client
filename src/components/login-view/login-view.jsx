@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -12,6 +12,7 @@ import { baseURL } from '../../../lib/config';
 export const LoginView = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
   
   const handleSubmit = (event) => {
     // this prevents the default behaviour of the form which is to reload the entire page
@@ -44,6 +45,12 @@ export const LoginView = ({ handleLogin }) => {
     });
   };
 
+  //Form validation
+  useEffect(() => {
+    // Check if both username and password have a minimum length
+    setIsFormValid(username.length >= 5 && password.length >= 3);
+  }, [username, password]);
+
   return (
     <>
       <h1>Login</h1>
@@ -68,7 +75,7 @@ export const LoginView = ({ handleLogin }) => {
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" disabled={!isFormValid}>
             Login
           </Button>
         </Stack>
@@ -86,8 +93,7 @@ LoginView.propTypes = {
   handleLogin: PropTypes.func.isRequired
 };
 
-// improvements:
 
-// 1. Add form validation to ensure that the user enters a valid username and password.
+
 // 2. Add error handling to the fetch request to handle network errors and server errors.
 // 3. Consider adding a loading spinner or progress bar to indicate to the user that the login request is being processed.
