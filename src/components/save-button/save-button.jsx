@@ -1,15 +1,11 @@
 import PropTypes from "prop-types";
-import { useLocation } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./save-button.scss";
 
 export const SaveButton = ({ movie, user, token }) => {
-  const location = useLocation();
-
   // Check if the movie is a favorite
   const isFavorite = user.favoriteMovies.includes(movie._id);
   
@@ -93,7 +89,3 @@ SaveButton.propTypes = {
     }).isRequired,
   token: PropTypes.string.isRequired
 };
-
-
-// improvements
-// 1. Remove the unused variables Row, Col, and location. This will help to clean up the code and make it more readable.

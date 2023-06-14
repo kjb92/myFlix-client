@@ -89,8 +89,3 @@ NavigationBar.propTypes = {
   movies: PropTypes.array, 
   setFilteredMovies: PropTypes.func.isRequired
 };
-
-
-
-// 4. Consider using a loading spinner or message while the search results are being fetched to improve the user experience.
-// Let me know if you need any help implementing these suggestions!
