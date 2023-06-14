@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 
-const SearchBar = ({ handleSearch, query, setQuery }) => {
+const SearchBar = ({ handleSearch, query, setQuery, loading }) => {
   const handleSearchChange = (event) => {
     setQuery(event.target.value);
   };
@@ -23,7 +23,14 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
         onChange={handleSearchChange}
       />
       <Button variant="outline-success" onClick={handleSearchSubmit}>
-        Search
+        {loading ? (
+          <>
+            <Spinner animation="border" size="sm" className="me-1" />
+            Loading...
+          </>
+        ) : (
+          'Search'
+        )}
       </Button>
     </Form>
   );
@@ -32,7 +39,8 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
 SearchBar.propTypes = {
   handleSearch: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
-  setQuery: PropTypes.func.isRequired
+  setQuery: PropTypes.func.isRequired,  
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SearchBar;

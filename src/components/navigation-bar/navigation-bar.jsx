@@ -11,8 +11,14 @@ import _ from 'lodash';
 
 export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }) => {
   const [query, setQuery] = useState(""); // Add state for search term
+  const [loading, setLoading] = useState(false); // Add loading state
 
-  const handleSearch = _.debounce((query) => {
+  const handleSearch = _.debounce(async (query) => {
+    setLoading(true);
+
+    // Simulate API call or any asynchronous search operation
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const filteredMovies = movies.filter((movie) => {
       const title = movie.title.toLowerCase();
       const searchTerm = query.toLowerCase();
@@ -20,6 +26,7 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
     });
 
     setFilteredMovies(filteredMovies);
+    setLoading(false);
   }, 300);
 
 
@@ -55,7 +62,7 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} />
+              <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} loading={loading} />
             </>
             ) : (
             <Nav
@@ -85,6 +92,5 @@ NavigationBar.propTypes = {
 
 
 
-// 3. Consider using a debounce function to delay the search until the user has stopped typing for a certain amount of time to reduce the number of unnecessary API calls.
 // 4. Consider using a loading spinner or message while the search results are being fetched to improve the user experience.
 // Let me know if you need any help implementing these suggestions!
