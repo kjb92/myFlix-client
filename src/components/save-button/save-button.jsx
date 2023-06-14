@@ -41,7 +41,7 @@ export const SaveButton = ({ movie, user, token, updateUser }) => {
 
   // Remove this movie from list of favorite movies
   const handleRemoveFromFavorites = () => {
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}/movies/${movie._id}`, {
+    fetch(`${baseURL}/users/${user.username}/movies/${movie._id}`, {
       method: 'DELETE',
       headers: {
         "Content-Type" : "application/JSON",
