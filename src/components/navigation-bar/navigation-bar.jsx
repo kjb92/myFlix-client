@@ -6,19 +6,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
+import SearchBar from './search-bar';
+
 
 export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }) => {
   const [query, setQuery] = useState(""); // Add state for search term
 
-  //Handle search change
-  const handleSearchChange = (event) => {
-    setQuery(event.target.value); // Update search term state
-  };
-
-  //Handle search submit
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-  
+  const handleSearch = (query) => {
     const filteredMovies = movies.filter((movie) => {
       const title = movie.title.toLowerCase();
       const searchTerm = query.toLowerCase();
@@ -61,17 +55,7 @@ export const NavigationBar = ({ user, handleLogout, movies, setFilteredMovies  }
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Form className="d-flex" onSubmit={handleSearchSubmit}>
-                <Form.Control
-                  type="search"
-                  placeholder="Search by title..."
-                  className="me-2"
-                  aria-label="Search"
-                  value={query} // Set the value of the search input to the state variable
-                  onChange={handleSearchChange} // Add onChange event handler to update the search term state
-                />
-                <Button variant="outline-success" onClick={handleSearchSubmit}>Search</Button>
-              </Form>
+              <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} />
             </>
             ) : (
             <Nav
@@ -101,7 +85,6 @@ NavigationBar.propTypes = {
 
 
 
-// 2. Consider using a separate component for the search bar to keep the NavigationBar component more focused on navigation.
 // 3. Consider using a debounce function to delay the search until the user has stopped typing for a certain amount of time to reduce the number of unnecessary API calls.
 // 4. Consider using a loading spinner or message while the search results are being fetched to improve the user experience.
 // Let me know if you need any help implementing these suggestions!
