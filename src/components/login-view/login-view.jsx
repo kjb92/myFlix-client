@@ -13,10 +13,12 @@ export const LoginView = ({ handleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   const handleSubmit = (event) => {
     // this prevents the default behaviour of the form which is to reload the entire page
     event.preventDefault();
+    setIsLoading(true);
 
     const data = {
       username: username, 
@@ -42,8 +44,11 @@ export const LoginView = ({ handleLogin }) => {
     })
     .catch((error) => {
       alert("Something went wrong", error);
-    });
-  };
+    })
+    .finally(() => {
+      setIsLoading(false);
+  });
+};
 
   //Form validation
   useEffect(() => {
@@ -75,9 +80,9 @@ export const LoginView = ({ handleLogin }) => {
           />
         </Form.Group>
         <Stack direction="horizontal" gap={3} className="mt-3">
-          <Button variant="primary" type="submit" disabled={!isFormValid}>
-            Login
-          </Button>
+        <Button variant="primary" type="submit" disabled={!isFormValid || isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </Button>
         </Stack>
       </Form>
       <Row>
