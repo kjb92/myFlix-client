@@ -1,17 +1,26 @@
+import { useState, useEffect } from 'react';
 import PropTypes from "prop-types";
+import { baseURL } from '../../../lib/config';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./save-button.scss";
 
-export const SaveButton = ({ movie, user, token }) => {
-  // Check if the movie is a favorite
-  const isFavorite = user.favoriteMovies.includes(movie._id);
+export const SaveButton = ({ movie, user, token, updateUser }) => {
+  const [isFavorite, setIsFavorite] = useState(
+    user?.favoriteMovies?.includes(movie?._id) || false
+  );
+
+  useEffect(() => {
+    setIsFavorite(user?.favoriteMovies?.includes(movie?._id) || false);
+    window.scrollTo(0, 0);
+  }, [movie]);
+
   
   // Add this movie to list of favorite movies
   const handleAddToFavorites = () => {
-    fetch(`https://myflix-kjb92.herokuapp.com/users/${user.username}/movies/${movie._id}`, {
+    fetch(`${baseURL}/users/${user.username}/movies/${movie._id}`, {
       method: 'POST',
       headers: {
         "Content-Type" : "application/JSON",
@@ -21,13 +30,12 @@ export const SaveButton = ({ movie, user, token }) => {
       .then(response => response.json())
       .then(data => {
         console.log('Movie added to favorites:', data);
-        alert('Movie added to favorites');
-        localStorage.setItem("user", JSON.stringify(data));
-        window.location.reload();
+        setIsFavorite(true);
+        updateUser(data);
       })
       .catch(error => {
         console.error('Error adding movie to favorites:', error);
-        alert('Something went wrong' + error);
+        alert('Error adding movie to favorites: ' + error);
       });
   };
 
@@ -43,19 +51,18 @@ export const SaveButton = ({ movie, user, token }) => {
       .then(response => response.json())
       .then(data => {
         console.log('Movie removed from favorites:', data);
-        alert('Movie removed from favorites!');
-        localStorage.setItem("user", JSON.stringify(data));
-        window.location.reload();
+        setIsFavorite(false);
+        updateUser(data);
       })
       .catch(error => {
         console.error('Error removing movie from favorites:', error);
-        alert('Something went wrong' + error);
+        alert('Error removing movie from favorites: ' + error);
       });
   };
 
   // Add OR remove this movie to/from list of favorite movies
   const handleClick = () => {
-    if (isFavorite) {
+    if (isFavorite === true) {
       handleRemoveFromFavorites();
     } else {
       handleAddToFavorites();
@@ -87,5 +94,6 @@ SaveButton.propTypes = {
     birthday: PropTypes.string,
     favoriteMovies: PropTypes.arrayOf(PropTypes.string.isRequired)
     }).isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  updateUser: PropTypes.func.isRequired
 };

@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { ProfileView } from '../profile-view/profile-view';
+import { baseURL } from '../../../lib/config';
 
 
 export const MainView = () => {
@@ -15,22 +16,14 @@ export const MainView = () => {
   const storedToken = JSON.parse(localStorage.getItem("token"));
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [favoriteMovies, setFavoriteMovies] = useState([])
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [favoriteMovies, setFavoriteMovies] = useState([])
   const [filteredMovies, setFilteredMovies] = useState([]); 
 
-
-  //Fill user with localStorage data if existing
-  if(!user && storedUser) {
-    setUser(storedUser);
-    setToken(storedToken);
-    setFavoriteMovies(storedUser.FavoriteMovies);
-  };
-
-  //variables for favorite list and similar movies
-  if (user) {
-    var favoriteMovieList= movies.filter((m) => favoriteMovies.includes(m._id));
+  //Update user function
+  const updateUser = (user) => {
+    setUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   //Handle logout
@@ -41,12 +34,13 @@ export const MainView = () => {
     window.location.reload();
   };
 
+  //Get all movies
   useEffect(() => {
     if (!token) {
       return;
     }
 
-    fetch('https://myflix-kjb92.herokuapp.com/movies', {
+    fetch(`${baseURL}/movies`, {
       headers: { 
         "Content-Type" : "application/JSON",
         Authorization: `Bearer ${token}`
@@ -73,7 +67,7 @@ export const MainView = () => {
       });
   }, [token]);
 
-
+  //Render views
   return (
     <BrowserRouter>
       <Row>
@@ -179,7 +173,8 @@ export const MainView = () => {
                             <MovieCard 
                               movie={movie} 
                               user={user} 
-                              token={token} 
+                              token={token}
+                              updateUser={updateUser} 
                             />
                           </Col>
                         );
@@ -197,7 +192,8 @@ export const MainView = () => {
                           <MovieCard 
                             movie={movie} 
                             user={user} 
-                            token={token} 
+                            token={token}
+                            updateUser={updateUser} 
                           />
                         </Col>
                       );
@@ -213,10 +209,3 @@ export const MainView = () => {
     </BrowserRouter>
   );
 };
-
-// Improvements:
-
-// Based on the warnings and errors in the active document, 
-// it seems that the variables selectedMovie, setSelectedMovie, 
-// and favoriteMovieList are declared but never used. 
-// You can remove them to avoid confusion and improve the code's readability.
